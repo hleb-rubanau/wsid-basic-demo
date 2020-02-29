@@ -1,0 +1,11 @@
+---
+- hosts:
+    - localhost
+  vars:
+    nginx_le_extra_mounts:
+      - { type: bind, source: /usr/share/wsid, target: /usr/share/wsid }
+  roles:
+    - docker
+    - wsid-idp-basic
+    - wsid-demo-client
+    - nginx

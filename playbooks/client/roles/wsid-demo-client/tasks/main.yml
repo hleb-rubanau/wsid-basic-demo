@@ -1,0 +1,7 @@
+---
+- file:
+    dest: /opt/nginx-letsencrypted/data/configs
+    state: directory
+- template:
+    dest: /opt/nginx-letsencrypted/data/configs/default.conf
+    src: nginx.conf

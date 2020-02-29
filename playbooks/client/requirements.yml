@@ -1,0 +1,6 @@
+- src: https://github.com/hleb-rubanau/ansible-role-docker
+  name: docker
+- src: https://github.com/hleb-rubanau/ansible-role-nginx-letsencrypted
+  name: nginx
+- src: https://github.com/hleb-rubanau/ansible-role-wsid-idp-basic.git
+  name: wsid-idp-basic
