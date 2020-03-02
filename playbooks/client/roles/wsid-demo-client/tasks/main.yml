@@ -5,3 +5,8 @@
 - template:
     dest: /opt/nginx-letsencrypted/data/configs/default.conf
     src: nginx.conf
+- apt:
+    name: 
+      - python3
+      - uwsgi-emperor
+      - python3-flask
