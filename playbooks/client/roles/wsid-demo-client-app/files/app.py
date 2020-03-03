@@ -7,9 +7,10 @@ from paramiko.ed25519key import Ed25519Key
 PASSWORD_FILE_LOCATION=os.getenv("WSID_PASSWD_FILE")
 KEY_FILE_LOCATION=os.getenv("WSID_KEY_FILE")
 WSID_IDENTITY=os.getenv('WSID_IDENTITY') # https://thisdomain/<username>
+WSID_DOMAIN=os.getenv("WSID_DOMAIN")
 DEMO_UPSTREAM=os.getenv("DEMO_UPSTREAM")
 DEMO_SSH_USER=os.getenv("DEMO_SSH_USER")
-
+WSID_IDENTITY_FQDN="https://"+WSID_DOMAIN+"/.wsid/"+WSID_IDENTITY
 
 # to be re-read on reload and NOT exposed as ENV vars
 with open(PASSWORD_FILE_LOCATION,'r') as pwdfile:
@@ -66,7 +67,9 @@ def initialize_log_capturer(logger):
 @app.route("/")
 def index():
     return render_template('index.html', 
-                            upstream=DEMO_UPSTREAM)
+                            upstream=DEMO_UPSTREAM, 
+                            this_domain=WSID_DOMAIN, 
+                            this_identity=WSID_IDENTITY)
 
 @app.route("/test/http",methods=["POST"])
 def test_http():
@@ -75,7 +78,7 @@ def test_http():
     capturer, log_teardown = initialize_log_capturer( logger )
 
     target_endpoint = f"https://{DEMO_UPSTREAM}/test/whoami"
-    auth=(WSID_IDENTITY, SECRET_PASSWORD)              
+    auth=(WSID_IDENTITY_FQDN, SECRET_PASSWORD)              
 
     logger.info(f"Testing server-to-server http call, API endpoint is {target_endpoint}, auth is {auth}")
 
