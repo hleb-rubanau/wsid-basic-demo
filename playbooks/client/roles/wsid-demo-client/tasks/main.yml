@@ -10,3 +10,4 @@
       - python3
       - uwsgi-emperor
       - python3-flask
+      - python3-requests
