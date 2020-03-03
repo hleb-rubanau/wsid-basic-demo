@@ -11,3 +11,6 @@ variable "demo_client_subdomain" { default="client" }
 variable "demo_server_subdomain" { default="target" }
 
 variable "demo_protection_password" {} 
+variable "demo_protection_user" {}
+
+variable "region" { default="lon1" } 
