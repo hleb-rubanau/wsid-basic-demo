@@ -1,0 +1,77 @@
+<html>
+<head>
+    <title> WSID demo - client </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1> WSID demo - client</h1>
+                <p> Hello! This server is capable of authorization to 
+                        <a href="https://{{ upstream }}">https://{{upstream}}</a> 
+                        with dynamically generated passwords</p>
+
+
+                <p> Passwords generated and stored inside this server are only kept in memory and not shared anywhere</p>
+
+                <p> Target server <pre>{{upstream}}</pre> has zero knowledge about passwords stored in the client. 
+                    It's only aware of this server's public URL (<pre>https://{{ nginx_le_primary_domain }}</pre>) , 
+                    which is referred in appropriate access policies.</p>
+
+            <blockquote> From the beginning, this server is not allowed to connect to <pre>{{upstream}}</pre> so tests below will intentionally fail. 
+                         You are expected to tweak policies at <a href="https://{upstream}">https://{{upstream}}</a> to see changes</blockquote>
+
+
+            <p>Push buttons below to test the connectivity and enjoy results</p>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary" id="test-rest">Test REST API call</button>
+            </div>
+
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary" id="test-ssh">Test SSH connection</button>
+            </div>
+        </div>  
+        <div class="row">
+            <div class="col-xs-12">
+                <div id="result"></div>
+            </div>
+        </div>
+            
+        <div class="row">
+            <div class="col-xs-12">
+
+            <p>WSID is an opensource solution for secure service-to-service authentication, designed and prototyped by me <a href="https://codified.cloud">Hleb Rubanau (project "Codified.Cloud")</a></p>
+            <p>Feel free to reach out if you need custom integrations, consulting, solution architecture services</p>
+
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        
+            <script language="javascript">
+                $("#test-rest").click( function() {
+                                           $.ajax({
+                                                type: "POST",
+                                                url: "/test/http"}
+                                               ).done( function (data, s,o){
+                                                    $("#result").html("<h1>Result</h1><pre>"+data+"</pre>");
+                                                    }
+                                                ).fail( function(o,s,e) {
+                                                    $("#result").html("<h1>AJAX Failure: "+s+"</h1><pre>"+e+"</pre>");
+                                                    }
+                                                );
+                                        };        
+            </script>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
