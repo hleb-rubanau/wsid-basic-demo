@@ -1,0 +1,38 @@
+---
+- name: demo app code
+  copy:
+    src: files
+    dest: "{{ wsid_demo_client_app_installation_dir }}"
+  register: wsid_demo_app_codebase
+- apt:
+    name: 
+      - python3
+      - uwsgi-emperor
+      - python3-flask
+      - python3-requests
+- systemd:
+    name: "uwsgi-emperor"
+    enabled: yes
+    state: started
+- template:
+    dest: /etc/uwsgi-emperor/vassals/demo_uwsgi.ini
+    src: uwsgi.ini
+  register: wsid_demo_vassal_config
+- template:
+    dest
+- name: reload emperor
+  systemd:
+    name: "uwsgi-emperor"
+    enabled: yes
+    state: reloaded
+  when: wsid_demo_vassal_config.changed or wsid_demo_app_codebase.changed
+- name: wsid rotation hooks
+  copy:
+    content: |
+        #! /bin/bash
+        service uwsgi_emperor reload 2>&1 | logger -e -s -t wsid
+    dest: {{ item }}
+    mode: 0644
+  loop:
+    - "{{ wsid_hooks_passwd_dir }}/{{wsid_demo_identity}}/00_uwsgi_reload.sh"
+    - "{{ wsid_hooks_key_dir }}/{{wsid_demo_identity}}/00_uwsgi_reload.sh"
