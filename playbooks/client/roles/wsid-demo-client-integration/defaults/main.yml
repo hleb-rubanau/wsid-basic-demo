@@ -1,2 +1,4 @@
 ---
 wsid_demo_client_app_port: 3000
+wsid_demo_protection_user: wsid
+wsid_demo_protection_htpasswd_filename: demoprotection.htpasswd

@@ -2,6 +2,11 @@
 - file:
     dest: /opt/nginx-letsencrypted/data/configs
     state: directory
+- set_fact:
+    wsid_demo_protection_htpasswd_file: "/opt/nginx-letsencrypted/data/configs/{{ wsid_demo_protection_htpasswd_filename }}"
+- shell: "echo '{{ wsid_demo_protection_password }} | htpasswd -i -c -B {{wsid_demo_protection_htpasswd_file }} {{ wsid_demo_protection_user }}"
+  args:
+    creates: "{{ wsid_demo_protection_htpasswd_file }}"
 - template:
     dest: /opt/nginx-letsencrypted/data/configs/default.conf
     src: nginx.conf

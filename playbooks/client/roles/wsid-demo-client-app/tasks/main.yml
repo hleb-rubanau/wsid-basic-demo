@@ -6,6 +6,7 @@
   register: wsid_demo_app_codebase
 - apt:
     name: 
+      - apache2-utils
       - python3
       - uwsgi-emperor
       - python3-flask
