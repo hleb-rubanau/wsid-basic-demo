@@ -1,0 +1,16 @@
+# Digitalocean token, see https://www.digitalocean.com/docs/apis-clis/api/create-personal-access-token/
+do_token=
+
+# Your email, used as account for tracking your certificates at letsencrypt.org
+letsencrypt_account=
+
+# Domain Zone, configured and delegated to DigitalOcean  -- demo will create two subrecords under it
+# E.g. if you have domain yourdomain.com, you can create subzone "wsiddemo.yourcomain.com" and delegate it to DO: https://www.digitalocean.com/community/tutorials/how-to-point-to-digitalocean-nameservers-from-common-domain-registrars
+# then, demo will create client.wsiddemo.yourdomain.com and target.wsiddemo.yourdomain.com for you
+demo_domain=
+demo_client_subdomain="client"
+demo_server_subdomain="target"
+
+# Simple password used to protect demo pages from unintented access. 
+demo_protection_user=wsid
+demo_protection_password=
