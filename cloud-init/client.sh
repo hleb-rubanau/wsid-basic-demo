@@ -2,6 +2,8 @@
 
 LETSENCRYPT_ACCOUNT=${ letsencrypt_account }
 FQDN_HOSTNAME=${ fqdn_hostname }
+WSID_DEMO_UPSTREAM=${ wsid_demo_upstream }
+WSID_DEMO_PROTECTION_PASSWORD=${wsid_demo_protection_password}
 
 function say() { echo "$*" >&2 }
 
@@ -23,6 +25,8 @@ tee /etc/ansible/host_vars/localhost <<ANSIBLECONFIG
 nginx_le_account=$LETSENCRYPT_ACCOUNT
 nginx_le_primary_domain=$FQDN_HOSTNAME
 nginx_le_mode=prod
+wsid_demo_upstream=$WSID_DEMO_UPSTREAM
+wsid_demo_protection_password=$WSID_DEMO_PROTECTION_PASSWORD
 ANSIBLECONFIG
 
 cd /usr/src/wsid-basic-demo/playbooks/client
