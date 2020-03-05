@@ -6,7 +6,7 @@ WSID_DEMO_UPSTREAM=${ wsid_demo_upstream }
 WSID_DEMO_PROTECTION_PASSWORD=${wsid_demo_protection_password}
 WSID_DEMO_PROTECTION_USER=${wsid_demo_protection_user}
 
-function say() { echo "$*" >&2 }
+function say() { echo "$*" >&2 ; }
 
 
 say "Installing minimal packages"
