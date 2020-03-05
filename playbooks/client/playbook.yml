@@ -3,7 +3,7 @@
     - localhost
   vars:
     nginx_le_extra_mounts:
-      - { type: bind, source: /usr/share/wsid, target: /usr/share/wsid }
+      - "{ type: bind, source: /usr/share/wsid, target: /usr/share/wsid }"
     wsid_demo_client_app_port: 3000
     wsid_identities: ['demo'] 
     wsid_demo_identity: 'demo'
