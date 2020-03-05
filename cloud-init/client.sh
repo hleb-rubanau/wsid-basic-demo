@@ -37,6 +37,9 @@ cd /usr/src/wsid-basic-demo/playbooks/client
 say "Installing roles"
 ansible-galaxy install -r requirements.yml --roles-path ./roles
 
+# work around ansible bug
+# https://github.com/ansible/ansible/issues/31617
+export HOME=${HOME:-/root}
 say "Running playbook"
 exec ansible-playbook playbook.yml 
 
