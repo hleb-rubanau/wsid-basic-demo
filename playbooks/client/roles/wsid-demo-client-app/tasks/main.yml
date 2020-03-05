@@ -19,8 +19,6 @@
     dest: /etc/uwsgi-emperor/vassals/demo_uwsgi.ini
     src: uwsgi.ini
   register: wsid_demo_vassal_config
-- template:
-    dest
 - name: reload emperor
   systemd:
     name: "uwsgi-emperor"
