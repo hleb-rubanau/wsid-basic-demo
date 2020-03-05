@@ -8,6 +8,7 @@
     wsid_identities: ['demo'] 
     wsid_demo_identity: 'demo'
     wsid_demo_ssh_user: 'demo'
+    nginx_le_brave_mode: true
   roles:
     - docker
     - wsid-idp-basic
