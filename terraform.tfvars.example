@@ -1,6 +1,9 @@
 # Digitalocean token, see https://www.digitalocean.com/docs/apis-clis/api/create-personal-access-token/
 do_token=
 
+# (optional) list of keypairs to install on droplets -- wrap each keypair name into quotes and separate them by comas. Whole list is wrapped in brackets.
+keys=[]
+
 # Your email, used as account for tracking your certificates at letsencrypt.org
 letsencrypt_account=
 

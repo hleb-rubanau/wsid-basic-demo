@@ -33,6 +33,14 @@ resource "digitalocean_droplet" "client" {
   size               = "s-1vcpu-1gb"
 }
 
-output "result" {
-  value = local.do_ssh_key_ids
+resource "digitalocean_record" "client" {
+  domain = var.demo_domain 
+  type   = "A"
+  name   = var.demo_client_subdomain 
+  value = digitalocean_droplet.client.ipv4_address 
+  ttl   = 60
+}
+
+output "client_fqdn" {
+  value = local.demo_client_fqdn
 }

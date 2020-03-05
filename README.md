@@ -9,6 +9,7 @@
 1. Copy terraform.tfvars.example under the name terraform.tfvars, and fill the values. 
 
 * `do_token` -- DigitalOcean's API token for your account
+* `keys` -- list of keypair names to be installed on droplets
 * `letsencrypt_account` -- your email, used to represent your account on letsencrypt.org. No registration needed.
 * `demo_domain` -- domain zone under which demo would create subdomains (you must own the domain and have zone managed by DigitalOcean)
 * `demo_client_subdomain` (default: `client`), `demo_server_subdomain` (default: `target`) -- subdomains to be created under the zone specified
