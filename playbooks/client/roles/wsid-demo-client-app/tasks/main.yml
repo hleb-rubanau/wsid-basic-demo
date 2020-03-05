@@ -20,7 +20,7 @@
     src: uwsgi.ini
   register: wsid_demo_vassal_config
 - name: reload emperor
-  systemd:
+  service:
     name: "uwsgi-emperor"
     enabled: yes
     state: reloaded
