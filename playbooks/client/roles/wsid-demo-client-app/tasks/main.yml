@@ -19,6 +19,9 @@
     dest: /etc/uwsgi-emperor/vassals/demo_uwsgi.ini
     src: uwsgi.ini
   register: wsid_demo_vassal_config
+- name: wait for emperor to start
+  pause:
+    seconds: 5
 - name: reload emperor
   service:
     name: "uwsgi-emperor"
