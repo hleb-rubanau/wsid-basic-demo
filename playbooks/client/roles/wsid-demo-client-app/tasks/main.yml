@@ -32,7 +32,7 @@
     content: |
         #! /bin/bash
         service uwsgi_emperor reload 2>&1 | logger -e -s -t wsid
-    dest: {{ item }}
+    dest: "{{ item }}"
     mode: 0644
   loop:
     - "{{ wsid_hooks_passwd_dir }}/{{wsid_demo_identity}}/00_uwsgi_reload.sh"
