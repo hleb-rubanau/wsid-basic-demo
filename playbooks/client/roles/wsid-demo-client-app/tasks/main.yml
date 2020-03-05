@@ -9,6 +9,7 @@
       - apache2-utils
       - python3
       - uwsgi-emperor
+      - uwsgi-plugin-python3
       - python3-flask
       - python3-requests
 - systemd:
