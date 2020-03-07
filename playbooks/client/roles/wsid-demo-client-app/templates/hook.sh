@@ -1,6 +1,6 @@
 #! /bin/bash
     
-WSID_PASSWD_FILE="{{ wsid_hooks_key_dir }}/{{wsid_demo_identity}}/00_uwsgi_reload.sh"
+WSID_PASSWD_FILE="{{ wsid_var_run }}/private/{{wsid_demo_identity}}/passwd"
 WSID_KEY_FILE="{{ wsid_var_run }}/private/{{ wsid_demo_identity }}/id_ed25519"
 SECRETS_FILE="{{ wsid_demo_client_app_installation_dir }}/secrets.py"
 
