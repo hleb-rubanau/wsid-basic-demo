@@ -11,11 +11,15 @@
     name: 
       - apache2-utils
       - python3
+      - python3-pip
       - uwsgi-emperor
       - uwsgi-plugin-python3
       - python3-flask
       - python3-requests
-      - python3-paramiko
+- pip:
+    name: 
+      - paramiko>=2.2
+    executable: pip3
 - systemd:
     name: "uwsgi-emperor"
     enabled: yes
