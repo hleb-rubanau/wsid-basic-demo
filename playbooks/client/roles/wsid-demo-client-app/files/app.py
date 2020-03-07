@@ -23,10 +23,10 @@ app = Flask(__name__)
 
 # TBD: move to core library
 def load_remote_host_keys(host, hostkeys):
-    logging.getLogger('wsid')
+    logger = logging.getLogger('wsid')
 
-    host_keys_endpoint = "https://{host}/.wsid/ssh_host_ed25519.pub"
-    logger.info("Fetching public keys from {host_keys_endpoint")
+    host_keys_endpoint = f"https://{host}/.wsid/ssh_host_ed25519.pub"
+    logger.info(f"Fetching public keys from {host_keys_endpoint}")
     
     keys_body = requests.get(host_keys_endpoint).text
     for hostkey in keys_body.split("\n"):
