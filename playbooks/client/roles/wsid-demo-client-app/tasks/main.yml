@@ -4,8 +4,8 @@
   register: codebase_preinstalled
 - name: demo app code
   copy:
-    src: files
-    dest: "{{ wsid_demo_client_app_installation_dir }}"
+    src: files/
+    dest: "{{ wsid_demo_client_app_installation_dir }}/"
   register: wsid_demo_app_codebase
 - apt:
     name: 
