@@ -4,8 +4,8 @@ import subprocess
 import requests
 from paramiko.client import SSHClient, RejectPolicy
 from paramiko.ed25519key import Ed25519Key
-PASSWORD_FILE_LOCATION=os.getenv("WSID_PASSWD_FILE")
-KEY_FILE_LOCATION=os.getenv("WSID_KEY_FILE")
+from io import StringIO
+
 WSID_IDENTITY=os.getenv('WSID_IDENTITY') # https://thisdomain/<username>
 WSID_DOMAIN=os.getenv("WSID_DOMAIN")
 DEMO_UPSTREAM=os.getenv("DEMO_UPSTREAM")
@@ -16,7 +16,7 @@ WSID_IDENTITY_FQDN="https://"+WSID_DOMAIN+"/.wsid/"+WSID_IDENTITY
 with open('./secrets.py','r') as secretsfile:
     exec(compile(secretsfile.read(), './secrets.py','exec') )
 
-SECRET_SSH_KEY=Ed25519Key(data=SECRET_SSH_KEY_BODY)
+SECRET_SSH_KEY=Ed25519Key(file_obj=StringIO(SECRET_SSH_KEY_BODY))
 
 app = Flask(__name__)
 
