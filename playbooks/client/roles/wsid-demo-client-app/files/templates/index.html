@@ -20,20 +20,32 @@
                         Passwords generated and stored inside this server are only kept in memory and not shared anywhere
                         <br>
                         Following items are exposed publically:
-                            <ul>
-                                <li><a href="https://{{ this_domain }}/.wsid/{{this_identity}}/passwdhash" target="_blank">Hash of current password</a></li>
-                                <li><a href="https://{{ this_domain }}/.wsid/{{this_identity}}/passwdhash.old" target="_blank">Hash of previous password</a></li>
-                                <li><a href="https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub" target="_blank">Public SSH key</a></li>
-                                <li><a href="https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub.old" target="_blank">Public SSH key (previous)</a></li>
-                            </ul>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td> 
+                                    <a href="https://{{ this_domain }}/.wsid/{{this_identity}}/passwdhash" target="_blank">Hash of current and previous password</a>
+                                </td>
+                                <td id="passwdhash">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> 
+                                    <a href="https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub" target="_blank">Public SSH key (current and previous)</a>
+                                </td>
+                                <td id="sshkey">
+                                    &nbsp;
+                                </td>
+                            </tr>
+                        </table>
                 </blockquote>
 
                 <p> Target server <pre>{{upstream}}</pre> has zero preliminary knowledge about passwords and keys used. 
-                    It only refers this service web identity (<pre>https://{{ this_domain }}/.wsid/{this_identity}/*</pre>), 
+                    It only refers this service web identity (<pre>https://{{ this_domain }}/.wsid/{{ this_identity }}/*</pre>), 
                     allowing or blocking it in appropriate access policies.</p>
 
 
-            <blockquote> From the beginning, this server (<pre>{{this_domain}}</pre>) is not allowed to connect to <pre>{{upstream}}</pre> so tests below will intentionally fail. 
+            <blockquote> From the beginning, this server (<pre>{{ this_domain }}</pre>) is not allowed to connect to <pre>{{upstream}}</pre> so tests below will intentionally fail. 
                          You are expected to tweak policies at <a href="https://{upstream}">https://{{upstream}}</a> to see changes</blockquote>
 
 
@@ -78,7 +90,19 @@
                                                     $("#result").html("<h1>AJAX Failure: "+s+"</h1><pre>"+e+"</pre>");
                                                     }
                                                 );
-                                        };        
+                                        } ); 
+
+
+                var public_identity_updater=function() {
+                    var pwhash_url="https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash";
+                    var pubkey_url="https://{{this_domain}}/.wsid/{{this_identity}}/id_ed25519.pub";
+
+                    $.ajax(url: pwhash_url).done( function(data, s, o ) { $("#passwdhash").html("<pre>"+data+"</pre>") } );
+                    $.ajax(url: pubkey_url).done( function(data, s, o ) { $("#sshkey").html("<pre>"+data+"</pre>") } );
+                }
+
+                public_identity_updater();
+                window.setInterval(public_identity_updater, 180000);        
             </script>
 
             </div>
