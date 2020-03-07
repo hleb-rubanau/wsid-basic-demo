@@ -4,7 +4,7 @@
     state: directory
 - set_fact:
     wsid_demo_protection_htpasswd_file: "/opt/nginx-letsencrypted/data/configs/{{ wsid_demo_protection_htpasswd_filename }}"
-- shell: "echo '{{ wsid_demo_protection_password }}' | base64 -d | htpasswd -i -c -B '{{wsid_demo_protection_htpasswd_file }}' '{{ wsid_demo_protection_user }}'"
+- shell: "echo '{{ wsid_demo_protection_password }}' | base64 -d | htpasswd -i -c -m '{{wsid_demo_protection_htpasswd_file }}' '{{ wsid_demo_protection_user }}'"
   args:
     creates: "{{ wsid_demo_protection_htpasswd_file }}"
 - template:
