@@ -34,13 +34,8 @@
     enabled: yes
     state: "{{ 'reloaded' if codebase_preinstalled.stat.exists else 'started' }}"
   when: wsid_demo_vassal_config.changed or wsid_demo_app_codebase.changed
-- name: wsid rotation hooks
-  copy:
-    content: |
-        #! /bin/bash
-        /usr/sbin/service uwsgi-emperor reload 2>&1 | logger -e -s -t wsid
-    dest: "{{ item }}"
+- name: wsid rotation hook 
+  template:
+    src: hook.sh
+    dest: "{{ wsid_hooks_key_dir }}/{{wsid_demo_identity}}/00_uwsgi_reload.sh"
     mode: 0744
-  loop:
-    - "{{ wsid_hooks_passwd_dir }}/{{wsid_demo_identity}}/00_uwsgi_reload.sh"
-    - "{{ wsid_hooks_key_dir }}/{{wsid_demo_identity}}/00_uwsgi_reload.sh"

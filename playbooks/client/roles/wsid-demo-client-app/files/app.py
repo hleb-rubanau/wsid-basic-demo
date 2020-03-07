@@ -12,12 +12,11 @@ DEMO_UPSTREAM=os.getenv("DEMO_UPSTREAM")
 DEMO_SSH_USER=os.getenv("DEMO_SSH_USER")
 WSID_IDENTITY_FQDN="https://"+WSID_DOMAIN+"/.wsid/"+WSID_IDENTITY
 
-# to be re-read on reload and NOT exposed as ENV vars
-with open(PASSWORD_FILE_LOCATION,'r') as pwdfile:
-    SECRET_PASSWORD=pwdfile.read().strip()
-with open(KEY_FILE_LOCATION,'r') as keyfile:
-    SECRET_SSH_KEY_BODY=keyfile.read().strip()
-    SECRET_SSH_KEY=Ed25519Key(data=SECRET_SSH_KEY_BODY)
+# injects SECRET_PASSWORD and SECRET_SSH_KEY_BODY
+with open('./secrets.py','r') as secretsfile:
+    exec(compile(secretsfile.read(), './secrets.py','exec') )
+
+SECRET_SSH_KEY=Ed25519Key(data=SECRET_SSH_KEY_BODY)
 
 app = Flask(__name__)
 
