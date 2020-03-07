@@ -34,6 +34,10 @@
     enabled: yes
     state: "{{ 'reloaded' if codebase_preinstalled.stat.exists else 'started' }}"
   when: wsid_demo_vassal_config.changed or wsid_demo_app_codebase.changed
+- name: wsid rotation hook directory
+  file:
+    dest: "{{ wsid_hooks_key_dir }}/{{wsid_demo_identity}}"
+    state: directory
 - name: wsid rotation hook 
   template:
     src: hook.sh
