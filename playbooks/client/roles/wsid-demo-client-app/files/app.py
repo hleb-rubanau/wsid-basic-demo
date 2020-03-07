@@ -62,7 +62,7 @@ def initialize_log_capturer(logger):
     logger=logging.getLogger() 
     logger.addHandler(handler)
 
-    return (capturer, lambda x: logger.removeHandler(handler))
+    return (capturer, lambda: logger.removeHandler(handler))
 
 @app.route("/")
 def index():
@@ -85,7 +85,7 @@ def test_http():
     try:
         result=requests.post(target_endpoint, auth=auth)    
         logger.info(f"result: {result.status_code}, {result.text}")
-    except RuntimeError as e:
+    except Exception as e:
         logger.error(f"FAILURE: {e}")
 
     log_teardown()
@@ -96,7 +96,7 @@ def test_ssh():
     logger=logging.getLogger('wsid')
     capturer, log_teardown = initialize_log_capturer( logger )
     
-    ssh_endpoint=f"{DEMO_SSH_USER}@{DEMO_UPSTEAM}"
+    ssh_endpoint=f"{DEMO_SSH_USER}@{DEMO_UPSTREAM}"
 
     logger.info(f"Testing SSH endpoint {ssh_endpoint} with temporary key")
     try:
@@ -116,8 +116,8 @@ def test_ssh():
                     
             logger.info(f"Connection successful: {ssh._transport.get_banner()}")
             ssh.close()
-    except RuntimeError as e:
+    except Exception as e:
         logger.error(f"FAILURE: {e}")
         
     log_teardown()
-    return jsonify(messages)
+    return jsonify(capturer.messages)
