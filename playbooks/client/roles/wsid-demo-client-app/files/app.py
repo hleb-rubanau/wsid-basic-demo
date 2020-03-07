@@ -85,7 +85,7 @@ def test_http():
     try:
         result=requests.post(target_endpoint, auth=auth)    
         logger.info(f"result: {result.status_code}, {result.text}")
-    except e:
+    except RuntimeError as e:
         logger.error(f"FAILURE: {e}")
 
     log_teardown()
@@ -116,7 +116,7 @@ def test_ssh():
                     
             logger.info(f"Connection successful: {ssh._transport.get_banner()}")
             ssh.close()
-    except e:
+    except RuntimeError as e:
         logger.error(f"FAILURE: {e}")
         
     log_teardown()
