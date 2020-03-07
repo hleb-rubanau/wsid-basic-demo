@@ -84,7 +84,19 @@
                                                 type: "POST",
                                                 url: "/test/http"}
                                                ).done( function (data, s,o){
-                                                    $("#result").html("<h1>Result</h1><pre>"+data+"</pre>");
+                                                    $("#result").html("<h1>REST test result</h1><pre>"+data+"</pre>");
+                                                    }
+                                                ).fail( function(o,s,e) {
+                                                    $("#result").html("<h1>AJAX Failure: "+s+"</h1><pre>"+e+"</pre>");
+                                                    }
+                                                );
+                                        } ); 
+                $("#test-ssh").click( function() {
+                                           $.ajax({
+                                                type: "POST",
+                                                url: "/test/ssh"}
+                                               ).done( function (data, s,o){
+                                                    $("#result").html("<h1>SSH test result</h1><pre>"+data+"</pre>");
                                                     }
                                                 ).fail( function(o,s,e) {
                                                     $("#result").html("<h1>AJAX Failure: "+s+"</h1><pre>"+e+"</pre>");
@@ -97,8 +109,12 @@
                     var pwhash_url="https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash";
                     var pubkey_url="https://{{this_domain}}/.wsid/{{this_identity}}/id_ed25519.pub";
 
-                    $.ajax(url: pwhash_url).done( function(data, s, o ) { $("#passwdhash").html("<pre>"+data+"</pre>") } );
-                    $.ajax(url: pubkey_url).done( function(data, s, o ) { $("#sshkey").html("<pre>"+data+"</pre>") } );
+
+                    var on_pwhash_fetch = function(data, s, o ) { $("#passwdhash").html("<pre>"+data+"</pre>") };
+                    var on_pubkey_fetch = function(data, s, o ) { $("#sshkey").html("<pre>"+data+"</pre>") };
+
+                    $.ajax(url: pwhash_url).done( on_pwhash_fetch );
+                    $.ajax(url: pubkey_url).done( on_pubkey_fetch );
                 }
 
                 public_identity_updater();
