@@ -33,7 +33,7 @@
   copy:
     content: |
         #! /bin/bash
-        service uwsgi_emperor reload 2>&1 | logger -e -s -t wsid
+        /usr/sbin/service uwsgi-emperor reload 2>&1 | logger -e -s -t wsid
     dest: "{{ item }}"
     mode: 0744
   loop:
