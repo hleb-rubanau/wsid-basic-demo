@@ -68,10 +68,17 @@ def initialize_log_capturing(logger_names=None):
                        ]
 
     loggers = [ logging.getLogger(n) for n in logger_names ] 
+    saved_levels = [ l.getEffectiveLevel() for l in loggers ]
     for logger in loggers:
         logger.addHandler(handler)    
+        logger.setLevel(logging.DEBUG)
 
-    return (capturer, lambda: [ logger.removeHandler(handler) for logger in loggers ]  )
+    log_remove_handler = lambda i: loggers[i].removeHandler(handler)
+    log_restore_level  = lambda i: loggers[i].setLevel( saved_levels[i] )
+
+    log_restore = lambda i: ( log_remove_handler(i), log_restore_level(i) )
+
+    return (capturer, lambda: [ log_restore(i) for i in range(0, len(loggers) ) ])
 
 @app.route("/")
 def index():
