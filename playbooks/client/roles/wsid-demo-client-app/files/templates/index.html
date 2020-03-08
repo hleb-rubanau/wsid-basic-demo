@@ -189,7 +189,7 @@
 
 
                     var on_pwhash_fetch = function(data, s, o ) { $("#passwdhash").html("<div>"+code_to_block(data.split('\n'))+"</div>") };
-                    var on_pubkey_fetch = function(data, s, o ) { $("#sshkey").html("<div>+code_to_block(data.split('\n'))+"</div>") };
+                    var on_pubkey_fetch = function(data, s, o ) { $("#sshkey").html("<div>"+code_to_block(data.split('\n'))+"</div>") };
 
                     $.ajax({url: pwhash_url}).done( on_pwhash_fetch );
                     $.ajax({url: pubkey_url}).done( on_pubkey_fetch );
