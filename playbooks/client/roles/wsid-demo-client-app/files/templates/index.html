@@ -61,74 +61,79 @@
 
                     <div class="card-body">
 
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" 
-                                    data-toggle="tab" 
-                                    role="tab"
-                                    aria-controls="test-rest"
-                                    id="test-rest-tab"
-                                    aria-selected="true"
-                                    href="#test-rest">
-                                    REST with dynamic password
-                                </a></li>
-                            <li class="nav-item">
-                                <a class="nav-link" 
-                                    data-toggle="tab" 
-                                    role="tab"
-                                    id="test-ssh-tab"
-                                    aria-controls="test-ssh"
-                                    aria-selected="false"
-                                    href="#test-ssh">
-                                    SSH with self-managed keys
-                                </a></li>
-                            <li class="nav-item">
-                                <a class="nav-link" 
-                                    data-toggle="tab" 
-                                    role="tab"
-                                    id="test-crypto-tab"
-                                    aria-controls="test-crypto"
-                                    aria-selected="false"
-                                    href="#test-crypto">
-                                    Signed and encrypted requests
-                                </a></li>
-                        </ul>
+                        <div class="card">
+                            <div class="card-header">
+
+                                <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" 
+                                            data-toggle="tab" 
+                                            role="tab"
+                                            aria-controls="test-rest"
+                                            id="test-rest-tab"
+                                            aria-selected="true"
+                                            href="#test-rest">
+                                            REST with dynamic password
+                                        </a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" 
+                                            data-toggle="tab" 
+                                            role="tab"
+                                            id="test-ssh-tab"
+                                            aria-controls="test-ssh"
+                                            aria-selected="false"
+                                            href="#test-ssh">
+                                            SSH with self-managed keys
+                                        </a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" 
+                                            data-toggle="tab" 
+                                            role="tab"
+                                            id="test-crypto-tab"
+                                            aria-controls="test-crypto"
+                                            aria-selected="false"
+                                            href="#test-crypto">
+                                            Signed and encrypted requests
+                                        </a></li>
+                                </ul>
+                            <div>
                     
-                        <div class="tab-content">
-                            <div id="test-rest" class="tab-pane fade show active" role="tabpanel" aria-labelledby="test-rest-tab">
-                                <p class="card-text">Upon test, server will send a POST request to the <code>https://{{upstream}}/test/http</code> API, supplying <code>BasicAuth</code> header, providiing <code>{{this_domain}}/.wsid/{{this_identity}}</code> as username, and currently active password as a password</p>
-                                <p>Receiving server will fetch valid password hashes 
-                                    via trusted SSL channel from the URL 
-                                    <a href="https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash" target="_blank">
-                                        https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash
-                                    </a> and would validate the password supplied
-                                </p>
-                                <p> After successful <strong>authentication</strong>, 
-                                    target server would make an <strong>authorization</strong> decision in accordance to its internal policies, which may allow or prohibit particular actions for user <code>{{this_domain}}/.wsid/{{this_identity}}</code> 
-                                </p>
-                                <button type="button" class="btn btn-primary" id="test-rest">Test REST API call</button>
-                                <div id="test-rest-result"></div>
-                            </div>
-                            <div id="test-ssh" class="tab-pane fade" role="tabpanel" aria-labelledby="test-ssh-tab">
-                                <p>Upon test, server will attempt an SSH connection to the <code>{{demo_ssh_user}}@{{upstream}}</code></p>
-                                <p>Before connection, trusted remote host keys would be fetched from 
-                                    <a href="https://{{upstream}}/.wsid/ssh_host_ed25519_key.pub" target="_blank">
-                                        https://{{upstream}}/.wsid/ssh_host_ed25519_key.pub
-                                    </a>
-                                    <br>
-                                    <strong>(No more blind trust to remote host keys!)</strong>
-                                </p>
-                                <p>Upon connection, target server <code>{{upstream}}</code> will authenticate and authorize user <code>{{demo_ssh_user}}</code> 
-                                    by comparing session SSH key towards public keys exposed at 
-                                    <a href="https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub" target="_blank">
-                                        https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub
-                                    </a>
-                                </p>
-                                <button type="button" class="btn btn-primary" id="test-ssh">Test SSH connection</button>
-                                <div id="test-ssh-result"></div>
-                            </div>
-                            <div id="test-crypto" class="tab-pane fade" role="tabpanel" aria-labelledby="test-crypto-tab">
-                                <h1>To be Done</h1>
+                            <div class="card-body">
+                                <div id="test-rest" class="tab-pane fade show active" role="tabpanel" aria-labelledby="test-rest-tab">
+                                    <p class="card-text">Upon test, server will send a POST request to the <code>https://{{upstream}}/test/http</code> API, supplying <code>BasicAuth</code> header, providiing <code>{{this_domain}}/.wsid/{{this_identity}}</code> as username, and currently active password as a password</p>
+                                    <p>Receiving server will fetch valid password hashes 
+                                        via trusted SSL channel from the URL 
+                                        <a href="https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash" target="_blank">
+                                            https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash
+                                        </a> and would validate the password supplied
+                                    </p>
+                                    <p> After successful <strong>authentication</strong>, 
+                                        target server would make an <strong>authorization</strong> decision in accordance to its internal policies, which may allow or prohibit particular actions for user <code>{{this_domain}}/.wsid/{{this_identity}}</code> 
+                                    </p>
+                                    <button type="button" class="btn btn-primary" id="test-rest">Test REST API call</button>
+                                    <div id="test-rest-result"></div>
+                                </div>
+                                <div id="test-ssh" class="tab-pane fade" role="tabpanel" aria-labelledby="test-ssh-tab">
+                                    <p>Upon test, server will attempt an SSH connection to the <code>{{demo_ssh_user}}@{{upstream}}</code></p>
+                                    <p>Before connection, trusted remote host keys would be fetched from 
+                                        <a href="https://{{upstream}}/.wsid/ssh_host_ed25519_key.pub" target="_blank">
+                                            https://{{upstream}}/.wsid/ssh_host_ed25519_key.pub
+                                        </a>
+                                        <br>
+                                        <strong>(No more blind trust to remote host keys!)</strong>
+                                    </p>
+                                    <p>Upon connection, target server <code>{{upstream}}</code> will authenticate and authorize user <code>{{demo_ssh_user}}</code> 
+                                        by comparing session SSH key towards public keys exposed at 
+                                        <a href="https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub" target="_blank">
+                                            https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub
+                                        </a>
+                                    </p>
+                                    <button type="button" class="btn btn-primary" id="test-ssh">Test SSH connection</button>
+                                    <div id="test-ssh-result"></div>
+                                </div>
+                                <div id="test-crypto" class="tab-pane fade" role="tabpanel" aria-labelledby="test-crypto-tab">
+                                    <h1>To be Done</h1>
+                                </div>
                             </div>
                         </div>
                     </div>
