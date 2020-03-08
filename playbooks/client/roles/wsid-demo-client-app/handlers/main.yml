@@ -1,0 +1,3 @@
+---
+- name: reload uwsgi
+  command: service uwsgi-emperor reload
