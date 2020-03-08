@@ -155,15 +155,17 @@
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         
             <script language="javascript">
+                var escapecode=function(s) { return s.replace('<', '&lt;').replace('>','&gt;'); };
+                var code_to_block=function(l) { return l.map( function(x) { return '<code>'+escapecode(x)+'</code>' } ).join('<br>') };
                 $("#test-rest").click( function() {
                                            $.ajax({
                                                 type: "POST",
                                                 url: "/test/http"}
                                                ).done( function (data, s,o){
-                                                    $("#test-rest-result").html("<h4>REST test result</h4><pre>"+data+"</pre>");
+                                                    $("#test-rest-result").html("<h4>REST test result</h4><div>"+code_to_block(data)+"</div>");
                                                     }
                                                 ).fail( function(o,s,e) {
-                                                    $("#test-rest-result").html("<h4>AJAX Failure: "+s+"</h4><pre>"+e+"</pre>");
+                                                    $("#test-rest-result").html("<h4>AJAX Failure: "+s+"</h4><div><code>"+e+"</code></div>");
                                                     }
                                                 );
                                         } ); 
@@ -172,10 +174,10 @@
                                                 type: "POST",
                                                 url: "/test/ssh"}
                                                ).done( function (data, s,o){
-                                                    $("#test-ssh-result").html("<h4>SSH test result</h4><pre>"+data+"</pre>");
+                                                    $("#test-ssh-result").html("<h4>SSH test result</h4><div>"+code_to_block(data)+"</div>");
                                                     }
                                                 ).fail( function(o,s,e) {
-                                                    $("#test-ssh-result").html("<h4>AJAX Failure: "+s+"</h4><pre>"+e+"</pre>");
+                                                    $("#test-ssh-result").html("<h4>AJAX Failure: "+s+"</h4><code>"+e+"</code>");
                                                     }
                                                 );
                                         } ); 
