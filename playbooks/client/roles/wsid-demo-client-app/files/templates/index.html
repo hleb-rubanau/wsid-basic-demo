@@ -156,7 +156,7 @@
         
             <script language="javascript">
                 var escapecode=function(s) { return s.replace('<', '&lt;').replace('>','&gt;'); };
-                var code_to_block=function(l) { return l.filter(function(x){ !(x=='\n'); } ).map( function(x) { return '<code>'+escapecode(x)+'</code>'; } ).join('<br>') };
+                var code_to_block=function(l) { return l.filter(function(x){ return !(x=='\n'); } ).map( function(x) { return '<code>'+escapecode(x)+'</code>'; } ).join('<br>') };
                 $("#test-rest").click( function() {
                                            $.ajax({
                                                 type: "POST",
