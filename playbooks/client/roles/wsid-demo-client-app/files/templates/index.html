@@ -20,9 +20,11 @@
                     <h2 class="card-header">Dynamic server identity</h2>
 
                     <div class="card-body">
-                        <p class="card-text">Passwords generated and stored inside this server are only kept in memory and not shared anywhere </p>
+                        <p class="card-text">Passwords and crypto keys generated and stored inside this server are only kept in memory and not shared anywhere. 
+                                             <br>They are rotated every {{ wsid_rotation_minutes }} minutes.
+                        </p>
 
-                        <p class=card-text">This server exposes following artifacts over HTTPS:</p>
+                        <p class="card-text">This server exposes following artifacts over HTTPS:</p>
 
                         <div class="card">
                             <h3 class=card-header">
@@ -52,10 +54,8 @@
         <div class="row">
             <div class="col-xs-12">
 
-                <div class="card">
-                    <h2 class="card-header">Use cases</h2>
+                        <h2 class="card-header">Use cases</h2>
 
-                    <div class="card-body">
 
                         <div class="card">
                             <div class="card-header">
@@ -132,8 +132,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>  
             </div>
         </div> 
         <div class="row">

@@ -11,6 +11,7 @@ WSID_IDENTITY=os.getenv('WSID_IDENTITY') # https://thisdomain/<username>
 WSID_DOMAIN=os.getenv("WSID_DOMAIN")
 DEMO_UPSTREAM=os.getenv("DEMO_UPSTREAM")
 DEMO_SSH_USER=os.getenv("DEMO_SSH_USER")
+WSID_ROTATION_MINUTES=os.getenv("WSID_ROTATION_MINUTES")
 WSID_IDENTITY_FQDN="https://"+WSID_DOMAIN+"/.wsid/"+WSID_IDENTITY
 
 # injects SECRET_PASSWORD and SECRET_SSH_KEY_BODY
@@ -77,7 +78,10 @@ def index():
     return render_template('index.html', 
                             upstream=DEMO_UPSTREAM, 
                             this_domain=WSID_DOMAIN, 
-                            this_identity=WSID_IDENTITY)
+                            this_identity=WSID_IDENTITY,
+                            demo_ssh_user=DEMO_SSH_USER,
+                            wsid_rotation_minutes=WSID_ROTATION_MINUTES
+                            )
 
 @app.route("/test/http",methods=["POST"])
 def test_http():
