@@ -52,17 +52,25 @@ class LogCapture(object):
         return "\n".join(self.messages)
 
 
-def initialize_log_capturer(logger):
+def initialize_log_capturing(logger_names=None):
     capturer = LogCapture()
     handler = logging.StreamHandler(capturer)
     handler.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
   
-    logger=logging.getLogger() 
-    logger.addHandler(handler)
+    if not logger_names:
+        logger_names = [    
+                        'wsid',
+                        'paramiko',
+                        'requests.packages.urllib3'
+                       ]
 
-    return (capturer, lambda: logger.removeHandler(handler))
+    loggers = [ logging.getLogger(n) for n in logger_names ] 
+    for logger in loggers:
+        logger.addHandler(handler)    
+
+    return (capturer, lambda: [ logger.removeHandler(handler) for logger in loggers ]  )
 
 @app.route("/")
 def index():
@@ -74,8 +82,8 @@ def index():
 @app.route("/test/http",methods=["POST"])
 def test_http():
 
-    logger=logging.getLogger()
-    capturer, log_teardown = initialize_log_capturer( logger )
+    capturer, log_teardown = initialize_log_capturing( logger )
+    logger=logging.getLogger('wsid')
 
     target_endpoint = f"https://{DEMO_UPSTREAM}/test/whoami"
     auth=(WSID_IDENTITY_FQDN, SECRET_PASSWORD)              
@@ -93,8 +101,9 @@ def test_http():
 
 @app.route("/test/ssh", methods=["POST"])
 def test_ssh():
+
+    capturer, log_teardown = initialize_log_capturing()
     logger=logging.getLogger('wsid')
-    capturer, log_teardown = initialize_log_capturer( logger )
     
     ssh_endpoint=f"{DEMO_SSH_USER}@{DEMO_UPSTREAM}"
 
