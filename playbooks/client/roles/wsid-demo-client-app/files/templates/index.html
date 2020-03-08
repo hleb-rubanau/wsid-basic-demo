@@ -160,10 +160,10 @@
                                                 type: "POST",
                                                 url: "/test/http"}
                                                ).done( function (data, s,o){
-                                                    $("#test-rest-result").html("<h1>REST test result</h1><pre>"+data+"</pre>");
+                                                    $("#test-rest-result").html("<h4>REST test result</h4><pre>"+data+"</pre>");
                                                     }
                                                 ).fail( function(o,s,e) {
-                                                    $("#test-rest-result").html("<h1>AJAX Failure: "+s+"</h1><pre>"+e+"</pre>");
+                                                    $("#test-rest-result").html("<h4>AJAX Failure: "+s+"</h4><pre>"+e+"</pre>");
                                                     }
                                                 );
                                         } ); 
@@ -172,10 +172,10 @@
                                                 type: "POST",
                                                 url: "/test/ssh"}
                                                ).done( function (data, s,o){
-                                                    $("#test-ssh-result").html("<h1>SSH test result</h1><pre>"+data+"</pre>");
+                                                    $("#test-ssh-result").html("<h4>SSH test result</h4><pre>"+data+"</pre>");
                                                     }
                                                 ).fail( function(o,s,e) {
-                                                    $("#test-ssh-result").html("<h1>AJAX Failure: "+s+"</h1><pre>"+e+"</pre>");
+                                                    $("#test-ssh-result").html("<h4>AJAX Failure: "+s+"</h4><pre>"+e+"</pre>");
                                                     }
                                                 );
                                         } ); 
