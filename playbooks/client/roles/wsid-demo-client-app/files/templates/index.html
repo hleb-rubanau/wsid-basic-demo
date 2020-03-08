@@ -56,10 +56,10 @@
         <div class="row">
             <div class="col-xs-12">
 
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Use cases</div>
+                <div class="card">
+                    <h2 class="card-header">Use cases</h2>
 
-                    <div class="panel-body">
+                    <div class="card-body">
 
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
@@ -96,7 +96,7 @@
                     
                         <div class="tab-content">
                             <div id="test-rest" class="tab-pane fade show active" role="tabpanel" aria-labelledby="test-rest-tab">
-                                <p>Upon test, server will send a POST request to the <code>https://{{upstream}}/test/http</code> API, supplying <code>BasicAuth</code> header, providiing <code>{{this_domain}}/.wsid/{{this_identity}}</code> as username, and currently active password as a password</p>
+                                <p class="card-text">Upon test, server will send a POST request to the <code>https://{{upstream}}/test/http</code> API, supplying <code>BasicAuth</code> header, providiing <code>{{this_domain}}/.wsid/{{this_identity}}</code> as username, and currently active password as a password</p>
                                 <p>Receiving server will fetch valid password hashes 
                                     via trusted SSL channel from the URL 
                                     <a href="https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash" target="_blank">
@@ -138,8 +138,8 @@
         <div class="row">
             <div class="col-xs-12">
 
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <p class="text-left text-muted small">
                         <strong>WSID is an opensource solution for secure service-to-service authentication, 
                                 designed and prototyped by me <a href="https://codified.cloud">Hleb Rubanau (project "Codified.Cloud")</a>
