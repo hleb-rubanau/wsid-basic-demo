@@ -16,41 +16,37 @@
                         with dynamically generated passwords</p>
 
 
-                <blockquote> 
-                        Passwords generated and stored inside this server are only kept in memory and not shared anywhere
-                        <br>
-                        Following items are exposed publically:
-                        <table class="table table-bordered">
-                            <tr>
-                                <td> 
-                                    <a href="https://{{ this_domain }}/.wsid/{{this_identity}}/passwdhash" target="_blank">Hash of current and previous password</a>
-                                </td>
-                                <td id="passwdhash">
-                                    &nbsp;
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> 
-                                    <a href="https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub" target="_blank">Public SSH key (current and previous)</a>
-                                </td>
-                                <td id="sshkey">
-                                    &nbsp;
-                                </td>
-                            </tr>
-                        </table>
-                </blockquote>
+                <div class="card">
+                    <h2 class="card-header">Dynamic server identity</h2>
 
-                <p> Target server <code>{{upstream}}</code> has zero preliminary knowledge about passwords and keys used. 
-                    It only refers this service web identity (<code>https://{{ this_domain }}/.wsid/{{ this_identity }}/*</code>), 
-                    allowing or blocking it in appropriate access policies.</p>
+                    <div class="card-body">
+                        <p class="card-text">Passwords generated and stored inside this server are only kept in memory and not shared anywhere </p>
 
+                        <p class=card-text">This server exposes following artifacts over HTTPS:</p>
 
-            <blockquote> From the beginning, this server (<code>{{ this_domain }}</code>) is not allowed to connect to <code>{{upstream}}</code> so tests below will intentionally fail. 
-                         You are expected to tweak policies at <a href="https://{upstream}">https://{{upstream}}</a> to see changes</blockquote>
+                        <div class="card">
+                            <h3 class=card-header">
+                                <a href="https://{{ this_domain }}/.wsid/{{this_identity}}/passwdhash" target="_blank">Hash of current and previous password</a>
+                            </h3>
+                            <div class="card-body" id="passwdhash">
+                                &nbsp;
+                            </div>
+                        </div>
 
+                        <div class="card">
+                            <h3 class="card-header">
+                                <a href="https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub" target="_blank">Public SSH key (current and previous)</a>
+                            </h3>
+                            <div class="card-body" id="sshkey">
+                            </div>
+                        </div>
 
-            <p>Push buttons below to test the connectivity and enjoy results</p>
-
+                        <p> Target server <code>{{upstream}}</code> has zero preliminary knowledge about passwords and keys used. 
+                            It's only aware about this server's web identity (<code>https://{{ this_domain }}/.wsid/{{ this_identity }}/*</code>), 
+                            which could be referred in access policies even before the real server's creation.</p>
+                    
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
