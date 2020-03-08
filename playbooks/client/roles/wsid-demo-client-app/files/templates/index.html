@@ -35,7 +35,7 @@
                             </div>
                         </div>
 
-                        <div class="card">
+                        <div class="card my-3">
                             <h5 class="card-header">
                                 <a href="https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub" target="_blank">Public SSH key (current and previous)</a>
                             </h5>
@@ -43,8 +43,8 @@
                             </div>
                         </div>
 
-                        <p> Target server <code>{{upstream}}</code> has zero preliminary knowledge about passwords and keys used. 
-                            It's only aware about this server's web identity (<code>https://{{ this_domain }}/.wsid/{{ this_identity }}/*</code>), 
+                        <p> Target server <var>{{upstream}}</var> has zero preliminary knowledge about passwords and keys used. 
+                            It's only aware about this server's web identity (<var>https://{{ this_domain }}/.wsid/{{ this_identity }}/*</var>), 
                             which could be referred in access policies even before the real server's creation.</p>
                     
                     </div> <!-- end card body -->
@@ -94,7 +94,7 @@
                     
                             <div class="card-body tab-content">
                                 <div id="test-rest" class="tab-pane fade show active" role="tabpanel" aria-labelledby="test-rest-tab">
-                                    <p class="card-text">Upon test, server will send a POST request to the <code>https://{{upstream}}/test/http</code> API, supplying <code>BasicAuth</code> header, providiing <code>{{this_domain}}/.wsid/{{this_identity}}</code> as username, and currently active password as a password</p>
+                                    <p class="card-text">Upon test, server will send a POST request to the <var>https://{{upstream}}/test/http</var> API, supplying <var>BasicAuth</var> header, providiing <var>{{this_domain}}/.wsid/{{this_identity}}</var> as username, and currently active password as a password</p>
                                     <p>Receiving server will fetch valid password hashes 
                                         via trusted SSL channel from the URL 
                                         <a href="https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash" target="_blank">
@@ -102,13 +102,13 @@
                                         </a> and would validate the password supplied
                                     </p>
                                     <p> After successful <strong>authentication</strong>, 
-                                        target server would make an <strong>authorization</strong> decision in accordance to its internal policies, which may allow or prohibit particular actions for user <code>{{this_domain}}/.wsid/{{this_identity}}</code> 
+                                        target server would make an <strong>authorization</strong> decision in accordance to its internal policies, which may allow or prohibit particular actions for user <var>{{this_domain}}/.wsid/{{this_identity}}</var> 
                                     </p>
                                     <button type="button" class="btn btn-primary" id="test-rest">Test REST API call</button>
                                     <div id="test-rest-result" class="my-3"></div>
                                 </div>
                                 <div id="test-ssh" class="tab-pane fade" role="tabpanel" aria-labelledby="test-ssh-tab">
-                                    <p>Upon test, server will attempt an SSH connection to the <code>{{demo_ssh_user}}@{{upstream}}</code></p>
+                                    <p>Upon test, server will attempt an SSH connection to the <var>{{demo_ssh_user}}@{{upstream}}</var></p>
                                     <p>Before connection, trusted remote host keys would be fetched from 
                                         <a href="https://{{upstream}}/.wsid/ssh_host_ed25519_key.pub" target="_blank">
                                             https://{{upstream}}/.wsid/ssh_host_ed25519_key.pub
@@ -116,7 +116,7 @@
                                         <br>
                                         <strong>(No more blind trust to remote host keys!)</strong>
                                     </p>
-                                    <p>Upon connection, target server <code>{{upstream}}</code> will authenticate and authorize user <code>{{demo_ssh_user}}</code> 
+                                    <p>Upon connection, target server <var>{{upstream}}</var> will authenticate and authorize user <var>{{demo_ssh_user}}</var> 
                                         by comparing session SSH key towards public keys exposed at 
                                         <a href="https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub" target="_blank">
                                             https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub
@@ -156,7 +156,7 @@
         
             <script language="javascript">
                 var escapecode=function(s) { return s.replace('<', '&lt;').replace('>','&gt;'); };
-                var code_to_block=function(l) { return l.map( function(x) { return '<code>'+escapecode(x)+'</code>' } ).join('<br>') };
+                var code_to_block=function(l) { return l.map( function(x) { return '<code>'+escapecode(x)+'</code>' } ).join('\n') };
                 $("#test-rest").click( function() {
                                            $.ajax({
                                                 type: "POST",
