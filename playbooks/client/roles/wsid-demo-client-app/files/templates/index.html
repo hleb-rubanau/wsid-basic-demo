@@ -188,8 +188,8 @@
                     var pubkey_url="https://{{this_domain}}/.wsid/{{this_identity}}/id_ed25519.pub";
 
 
-                    var on_pwhash_fetch = function(data, s, o ) { $("#passwdhash").html("<pre>"+data+"</pre>") };
-                    var on_pubkey_fetch = function(data, s, o ) { $("#sshkey").html("<pre>"+data+"</pre>") };
+                    var on_pwhash_fetch = function(data, s, o ) { $("#passwdhash").html("<div><code>"+escapecode(data)+"</code></div>") };
+                    var on_pubkey_fetch = function(data, s, o ) { $("#sshkey").html("<div><code>"+escapecode(data)+"</code></div>") };
 
                     $.ajax({url: pwhash_url}).done( on_pwhash_fetch );
                     $.ajax({url: pubkey_url}).done( on_pubkey_fetch );
