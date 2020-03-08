@@ -54,26 +54,66 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <button type="button" class="btn btn-primary" id="test-rest">Test REST API call</button>
-            </div>
+            <div class="col-xs-12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#test-rest">REST with dynamic password</a></li>
+                    <li><a data-toggle="tab" href="#test-ssh">SSH with self-managed keys</a></li>
+                    <li><a data-toggle="tab" href="#test-crypto">Signed and encrypted requests</a></li>
+                </ul>
 
-            <div class="col-md-6">
-                <button type="button" class="btn btn-primary" id="test-ssh">Test SSH connection</button>
+                <div class="tab-content">
+                    <div id="test-rest" class="tab-pane fade in active">
+                        <p>Upon test, server will send a POST request to the <code>https://{{upstream}}/test/http</code> API, supplying <code>BasicAuth</code> header, providiing <code>{{this_domain}}/.wsid/{{this_identity}}</code> as username, and currently active password as a password</p>
+                        <p>Receiving server will fetch valid password hashes 
+                            via trusted SSL channel from the URL 
+                            <a href="https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash" target="_blank">
+                                https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash
+                            </a> and would validate the password supplied
+                        </p>
+                        <p> After successful <strong>authentication</strong>, 
+                            target server would make an <strong>authorization</strong> decision in accordance to its internal policies, which may allow or prohibit particular actions for user <code>{{this_domain}}/.wsid/{{this_identity}}</code> 
+                        </p>
+                        <button type="button" class="btn btn-primary" id="test-rest">Test REST API call</button>
+                        <div id="test-rest-result"></div>
+                    </div>
+                    <div id="test-ssh" class="tab-pane fade">
+                        <p>Upon test, server will attempt an SSH connection to the <code>{{demo_ssh_user}}@{{upstream}}</code></p>
+                        <p>Before connection, trusted remote host keys would be fetched from 
+                            <a href="https://{{upstream}}/.wsid/ssh_host_ed25519_key.pub" target="_blank">
+                                https://{{upstream}}/.wsid/ssh_host_ed25519_key.pub
+                            </a>
+                            <br>
+                            <strong>(No more blind trust to remote host keys!)</strong>
+                        </p>
+                        <p>Upon connection, target server <code>{{upstream}}</code> will authenticate and authorize user <code>{{demo_ssh_user}}</code> 
+                            by comparing session SSH key towards public keys exposed at 
+                            <a href="https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub" target="_blank">
+                                https://{{ this_domain }}/.wsid/{{this_identity}}/id_ed25519.pub
+                            </a>
+                        </p>
+                        <button type="button" class="btn btn-primary" id="test-ssh">Test SSH connection</button>
+                        <div id="test-ssh-result"></div>
+                    </div>
+                    <div id="test-crypto" class="tab-pane fade">
+                        <h1>To be Done</h1>
+                    </div>
+                </div>
             </div>
         </div>  
-        <div class="row">
-            <div class="col-xs-12">
-                <div id="result"></div>
-            </div>
-        </div>
             
         <div class="row">
             <div class="col-xs-12">
 
-            <p>WSID is an opensource solution for secure service-to-service authentication, designed and prototyped by me <a href="https://codified.cloud">Hleb Rubanau (project "Codified.Cloud")</a></p>
-            <p>Feel free to reach out if you need custom integrations, consulting, solution architecture services</p>
-
+            <div class="panel panel-default">
+                <p class="text-left text-muted font-weight-bold">WSID is an opensource solution for secure service-to-service authentication, designed and prototyped by me <a href="https://codified.cloud">Hleb Rubanau (project "Codified.Cloud")</a></p>
+                <p class="test-left text-muted font-weight-bold">Feel free to reach out if you need custom integrations, consulting, solution architecture services</p>
+                <p class="text-left text-muted">&copy; Hleb Rubanau, 2020. </p>
+                <p class="text-left text-muted">Recipes for this demo are available at 
+                    <a href="https://github.com/hleb-rubanau/wsid-basic-demo" target="_blank">
+                    GitHub
+                    </a>, and could be used freely under MIT license.
+                <p>
+            </div>
 
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -84,10 +124,10 @@
                                                 type: "POST",
                                                 url: "/test/http"}
                                                ).done( function (data, s,o){
-                                                    $("#result").html("<h1>REST test result</h1><pre>"+data+"</pre>");
+                                                    $("#test-rest-result").html("<h1>REST test result</h1><pre>"+data+"</pre>");
                                                     }
                                                 ).fail( function(o,s,e) {
-                                                    $("#result").html("<h1>AJAX Failure: "+s+"</h1><pre>"+e+"</pre>");
+                                                    $("#test-rest-result").html("<h1>AJAX Failure: "+s+"</h1><pre>"+e+"</pre>");
                                                     }
                                                 );
                                         } ); 
@@ -96,10 +136,10 @@
                                                 type: "POST",
                                                 url: "/test/ssh"}
                                                ).done( function (data, s,o){
-                                                    $("#result").html("<h1>SSH test result</h1><pre>"+data+"</pre>");
+                                                    $("#test-ssh-result").html("<h1>SSH test result</h1><pre>"+data+"</pre>");
                                                     }
                                                 ).fail( function(o,s,e) {
-                                                    $("#result").html("<h1>AJAX Failure: "+s+"</h1><pre>"+e+"</pre>");
+                                                    $("#test-ssh-result").html("<h1>AJAX Failure: "+s+"</h1><pre>"+e+"</pre>");
                                                     }
                                                 );
                                         } ); 
