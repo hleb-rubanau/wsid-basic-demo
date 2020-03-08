@@ -156,7 +156,7 @@
         
             <script language="javascript">
                 var escapecode=function(s) { return s.replace('<', '&lt;').replace('>','&gt;'); };
-                var code_to_block=function(l) { return l.map( function(x) { return '<code>'+escapecode(x)+'</code>' } ).join('\n') };
+                var code_to_block=function(l) { return l.filter(function(x){ !(x=='\n'); } ).map( function(x) { return '<code>'+escapecode(x)+'</code>'; } ).join('<br>') };
                 $("#test-rest").click( function() {
                                            $.ajax({
                                                 type: "POST",
@@ -188,7 +188,7 @@
                     var pubkey_url="https://{{this_domain}}/.wsid/{{this_identity}}/id_ed25519.pub";
 
 
-                    var on_pwhash_fetch = function(data, s, o ) { $("#passwdhash").html("<div><code>"+escapecode(data)+"</code></div>") };
+                    var on_pwhash_fetch = function(data, s, o ) { $("#passwdhash").html("<div>"+code_to_block(data.split('\n'))+"</div>") };
                     var on_pubkey_fetch = function(data, s, o ) { $("#sshkey").html("<div><code>"+escapecode(data)+"</code></div>") };
 
                     $.ajax({url: pwhash_url}).done( on_pwhash_fetch );
