@@ -82,7 +82,7 @@ def index():
 @app.route("/test/http",methods=["POST"])
 def test_http():
 
-    capturer, log_teardown = initialize_log_capturing( logger )
+    capturer, log_teardown = initialize_log_capturing()
     logger=logging.getLogger('wsid')
 
     target_endpoint = f"https://{DEMO_UPSTREAM}/test/whoami"
