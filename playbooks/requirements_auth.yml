@@ -1,0 +1,2 @@
+- src: https://github.com/hleb-rubanau/ansible-role-wsid-auth-basic.git
+  name: wsid-auth-basic

@@ -1,0 +1,18 @@
+---
+- hosts:
+    - localhost
+  vars:
+    nginx_le_extra_mounts:
+      - "{ \"type\": \"bind\", \"source\": \"/usr/share/wsid\", \"target\": \"/usr/share/wsid\" }"
+      - "{ \"type\": \"bind\", \"source\": \"/var/run/wsid/public\", \"target\": \"/var/run/wsid/public\" }"
+    nginx_le_brave_mode: true
+    nginx_le_compose_version: "3.2" 
+    nginx_le_logging_options_inline: "tag: nginx"
+    wsid_auth_logging_options_inline: "tag: wsid-auth"
+  roles:
+    - docker
+    - wsid-idp-basic
+    - wsid-auth-basic
+    - wsid-demo-auth-integration
+    - nginx-custom-dockerbuild
+    - nginx

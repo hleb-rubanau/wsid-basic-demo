@@ -27,20 +27,17 @@ tee /etc/ansible/host_vars/localhost <<ANSIBLECONFIG
 nginx_le_account: $LETSENCRYPT_ACCOUNT
 nginx_le_primary_domain: $FQDN_HOSTNAME
 nginx_le_mode: prod
-wsid_demo_upstream: $WSID_DEMO_UPSTREAM
-wsid_demo_protection_user: $WSID_DEMO_PROTECTION_USER
-wsid_demo_protection_password: $WSID_DEMO_PROTECTION_PASSWORD
-wsid_rotation_minutes: 3
 ANSIBLECONFIG
 
 cd /usr/src/wsid-basic-demo/playbooks/
 say "Installing roles"
 ansible-galaxy install -r requirements_base.yml --roles-path ./roles
+ansible-galaxy install -r requirements_auth.yml --roles-path ./roles
 
 # work around ansible bug
 # https://github.com/ansible/ansible/issues/31617
 if [ -z "$HOME" ]; then export HOME=/root ; fi
 
 say "Running playbook"
-exec ansible-playbook playbook_client.yml 
+exec ansible-playbook playbook_auth.yml 
 
