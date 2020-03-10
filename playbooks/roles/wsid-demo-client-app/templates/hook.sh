@@ -4,8 +4,8 @@
 # but there could be pretty anything -- contents of sourcefile could be pushed to redis, supplied to login utility etc.
 
 SOURCE_DIRECTORY="{{ wsid_var_run }}/private/{{wsid_demo_identity }}"
-DATA_DIRECTORY="{{ wsid_demo_client_app_data_dir }}"
-FILE={{ hook.file }}
+TARGET_DIRECTORY="{{ wsid_demo_client_app_data_dir }}"
+TARGET_FILE={{ hook.file }}
 
 function deploy_file() {
     local fname="$1"
@@ -22,4 +22,4 @@ function deploy_file() {
     cat "$srcpath" > "$targetpath"
 }
 
-deploy_file "$FILE" 
+deploy_file "$TARGET_FILE" 
