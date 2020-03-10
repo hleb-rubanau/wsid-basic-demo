@@ -1,0 +1,5 @@
+---
+- docker_service:
+    project_src: "{{ wsid_demo_auth_app.installation_dir  }}"
+    project_name: "{{ wsid_demo_auth_app.name }}"
+    restarted: yes

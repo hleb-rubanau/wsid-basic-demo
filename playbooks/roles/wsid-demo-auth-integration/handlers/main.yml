@@ -3,7 +3,7 @@
   service:
     name: sshd
     state: restarted
-- include_tasks: "{{ role_path }}/handlers/docker_service.yml"
-  when: ansible_version.full is version('2.8','<') 
-- include_tasks: "{{ role_path }}/handlers/docker_compose.yml"
-  when: ansible_version.full is version('2.8','>=') 
+- name: restart demo app
+  include_tasks: "{{ role_path }}/handlers/demo_docker_{{ docker_service_or_compose }}.yml"
+- name: restart auth app
+  include_tasks: "{{ role_path }}/handlers/auth_docker_{{ docker_service_or_compose }}.yml"
