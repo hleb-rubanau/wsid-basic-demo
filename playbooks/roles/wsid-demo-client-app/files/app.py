@@ -48,8 +48,8 @@ def load_remote_host_keys(host, hostkeys=None):
     else:
         tfileobj, tfilepath=tempfile.mkstemp()
         logger.debug(f"Storing hostkeys to {tfilepath}: {keys_body}")
-        tfileobj.write( hostkeys.decode() )
-        tfileobj.close()
+        os.write(tfileobj, hostkeys.encode() )
+        os.close(tfileobj)
         return tfilepath
 
 class LogCapture(object):
