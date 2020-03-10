@@ -13,6 +13,6 @@ if __name__ != '__main__':
 def whoami():
     return jsonify( {
                         'status': 'success',
-                        'identity': request.headers.get('X-WSID-Identity'),
-                        'headers': dict(request.headers)
+                        'identity': request.headers.get('X-WSID-Identity') 
+                        #, 'headers': dict(request.headers)
                     } )
