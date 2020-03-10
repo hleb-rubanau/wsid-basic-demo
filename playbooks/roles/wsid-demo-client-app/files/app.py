@@ -144,15 +144,17 @@ def test_ssh():
             keyfile=f"{DEMO_DATA_DIR}/id_ed25519"
 
             keycheck_cmd = ['ssh-keygen','-y','-f', keyfile ]
-            ssh_cmd = ['ssh','-o',f'UserKnownHostsFile={known_hosts_file}',
-                            '-i', keyfile,
-                            ssh_endpoint ]
+            ssh_cmd = ['ssh', 
+                              f'-i {keyfile}',
+                              f'-o UserKnownHostsFile={known_hosts_file}',
+                                ssh_endpoint ]
 
             logger.info(f"Checking private key as {keycheck_cmd}")
             keycheck_result=subprocess.run(keycheck_cmd, 
                                                 stdout=subprocess.PIPE,
                                                 stderr=subprocess.PIPE)
                                                 #capture_output=True)
+
             logger.info(f"SSH KEYCHECK STDOUT: { keycheck_result.stdout }")
             logger.info(f"SSH KEYCHECK STDERR: { keycheck_result.stderr }")
 
