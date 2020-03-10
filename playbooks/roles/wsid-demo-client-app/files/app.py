@@ -23,7 +23,7 @@ CACHE_TTL=10
 @cached(cache=TTLCache(maxsize=1,ttl=CACHE_TTL))
 def get_secret_password():
     with open(f"{DEMO_DATA_DIR}/passwd", "r") as passwdfile:
-        return passwdfile.read().decode()
+        return passwdfile.read().strip()
 
 app = Flask(__name__)
 
