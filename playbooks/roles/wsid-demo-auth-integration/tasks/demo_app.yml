@@ -1,0 +1,17 @@
+---
+- file:
+    state: directory
+    path: "{{ wsid_demo_target_app_installation_dir }}"
+- copy:
+    src: files/demo.py
+    dest: "{{ wsid_demo_target_app_installation_dir }}/"
+  notify: restart demo app
+- template: 
+    src: docker-compose.yml
+    dest: "{{ wsid_demo_target_app_installation_dir }}/docker-compose.yml"
+- lineinfile:
+    line: "COMPOSE_PROJECT_NAME=demo"
+    dest: "{{ wsid_demo_target_app_installation_dir }}/.env"
+- docker_compose:
+    project_src: "{{ wsid_demo_target_app_installation_dir  }}"
+    project_name: "demo"

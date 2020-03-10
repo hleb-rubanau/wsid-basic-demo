@@ -1,0 +1,13 @@
+---
+version: "3.2"
+service:
+  demo: 
+    image: {{ wsid_auth_docker_image }}:{{ wsid_auth_docker_image_tag }}
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:{{ wsid_demo_target_app_port }}:8000
+    volumes: 
+      - .:/app:ro
+    command:
+      - [ "auth:app" ]
+    logging: { options: { tag: "demo" } }

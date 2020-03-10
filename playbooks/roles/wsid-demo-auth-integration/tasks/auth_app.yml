@@ -1,0 +1,20 @@
+---
+- set_fact:
+    wsid_demo_auth_app: "{{ wsid_auth_instances[0] }}"
+- file: 
+    dest: "{{ wsid_auth_instance.settings_dir  }}"
+    state: directory
+- lineinfile:
+    line: "{{ wsid_demo_client_identity }}"
+    path: "{{ wsid_demo_auth_app.settings_dir }}/identification_whitelist.txt"
+  notify: restart auth
+- template:
+    src: auth_ssh.conf
+    dest: "{{ wsid_demo_auth_app.settings_dir }}/ssh.conf"
+  notify: restart auth
+- file:
+    dest: /opt/nginx-letsencrypted/data/configs
+    state: directory
+- template:
+    dest: /opt/nginx-letsencrypted/data/configs/default.conf
+    src: nginx.conf

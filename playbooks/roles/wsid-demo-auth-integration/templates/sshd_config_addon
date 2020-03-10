@@ -1,0 +1,13 @@
+Match user {{ wsid_demo_ssh_user }}
+    AuthorizedKeysCommand  /usr/bin/curl -s http://127.0.0.1:{{ wsid_demo_auth_app.port }}/.ssh/authorized_keys/%u
+    AuthorizedKeysCommandUser nobody
+    AuthorizedKeysFile /dev/null 
+    ForceCommand echo "Hello, demo user, identified as $WSID_IDENTITY ! You authenticated successfully, but shell is intentionally restricted. Bye!"
+
+    # it's strictly recommended to disable password auth for accounts supposed for automated login (better for all!)
+    # there are many pitfalls with legacy password schemas -- i.e. you can't be sure 
+    #   that some old pam_unix won't silently take only first 8 characters off your password 
+    #   also you can't be sure that system can't be tricked into setting up account password known to the attacker
+    #       so let's rely on strong crypto (ed25519 keys) 
+    PasswordAuthentication no
+Match all

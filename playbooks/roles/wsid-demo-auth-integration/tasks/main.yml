@@ -1,7 +1,4 @@
 ---
-- file:
-    dest: /opt/nginx-letsencrypted/data/configs
-    state: directory
-- template:
-    dest: /opt/nginx-letsencrypted/data/configs/default.conf
-    src: nginx.conf
+- include: auth_app.yml
+- include: demo_app.yml
+- include: sshd.yml
