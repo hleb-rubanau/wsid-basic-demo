@@ -3,7 +3,7 @@
     name: "{{ wsid_demo_ssh_user }}"
 - blockinfile:
     dest: /etc/ssh/sshd_config
-    src: "{{ lookup('template', 'sshd_config_addon') }}"
+    block: "{{ lookup('template', 'sshd_config_addon') }}"
   notify: restart sshd
 #- lineinfile:
 #    line: "Include sshd_demo_dynamic_auth"
