@@ -1,6 +1,6 @@
 ---
 - set_fact: 
-    docker_service_or_compose: 'compose' if ( ansible_version.full is version('2.8','>=') ) else 'service'
+    docker_service_or_compose: "{{ 'compose' if ( ansible_version.full is version('2.8','>=') ) else 'service' }}"
 - include: auth_app.yml
 - include: demo_app.yml
 - include: landing.yml
