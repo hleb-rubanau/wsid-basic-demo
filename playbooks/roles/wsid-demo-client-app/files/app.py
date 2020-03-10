@@ -39,7 +39,7 @@ def load_remote_host_keys(host, hostkeys):
             continue
         logger.debug(f"Adding {host} {hostkey}")
         keytype,keybody=hostkey.split(" ")
-        hostkeys.add( host, keytype, keybody )
+        hostkeys.add( host, keytype, Ed25519Key(file_obj=StringIO(keybody) ))
 
 
 
@@ -141,7 +141,7 @@ def test_ssh():
             logger.info(f"Connection successful: {ssh._transport.get_banner()}")
             ssh.close()
     except Exception as e:
-        logger.error(f"FAILURE: {e}")
+        logger.exception(f"SSH FAILURE")
         
     log_teardown()
     return jsonify(capturer.messages)
