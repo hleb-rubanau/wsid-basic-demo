@@ -1,2 +1,3 @@
 ---
 wsid_demo_client_app_installation_dir: /opt/demo-app
+wsid_demo_client_app_data_dir: /dev/shm/demo-app-data

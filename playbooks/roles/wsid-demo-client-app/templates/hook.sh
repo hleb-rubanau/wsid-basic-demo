@@ -1,17 +1,25 @@
 #! /bin/bash
-    
-WSID_PASSWD_FILE="{{ wsid_var_run }}/private/{{wsid_demo_identity}}/passwd"
-WSID_KEY_FILE="{{ wsid_var_run }}/private/{{ wsid_demo_identity }}/id_ed25519"
-SECRETS_FILE="{{ wsid_demo_client_app_installation_dir }}/secrets.py"
+# this is fairly simplistic deployer, which only copies data to location 
+# from where files could be read by www-data
+# but there could be pretty anything -- contents of sourcefile could be pushed to redis, supplied to login utility etc.
 
-cat > "$SECRETS_FILE" <<SECRETSFILE
-SECRET_PASSWORD="$(cat "$WSID_PASSWD_FILE")"
-SECRET_SSH_KEY_BODY="""$(cat "$WSID_KEY_FILE")
-"""
-SECRETSFILE
+SOURCE_DIRECTORY="{{ wsid_var_run }}/private/{{wsid_demo_identity }}"
+DATA_DIRECTORY="{{ wsid_demo_client_app_data_dir }}"
+FILE={{ hook.file }}
 
-chmod g+r-w "$SECRETS_FILE"
-chown :www-data "$SECRETS_FILE"
-echo "Regenerated $SECRETS_FILE, reloading emperor" >&2
+function deploy_file() {
+    local fname="$1"
+    local srcpath="$SOURCE_DIRECTORY/$fname"
+    local targetpath="$TARGET_DIRECTORY/$fname"
 
-/usr/sbin/service uwsgi-emperor reload 
+    mkdir -p "$TARGET_DIRECTORY"    
+    chown www-data "$TARGET_DIRECTORY"
+    chmod 0500 "$TARGET_DIRECTORY"
+
+    touch "$targetpath"
+    chown www-data "$targetpath"
+    chmod 0400 "$targetpath"
+    cat "$srcpath" > "$targetpath"
+}
+
+deploy_file "$FILE" 

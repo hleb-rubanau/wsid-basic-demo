@@ -1,0 +1,10 @@
+---
+- name: wsid rotation hook directory
+  file:
+    dest: "{{ hook.dir }}"
+    state: directory
+- name: wsid rotation hook 
+  template:
+    src: hook.sh
+    dest: "{{ hook.dir }}/00_demo_copy.sh"
+    mode: 0744

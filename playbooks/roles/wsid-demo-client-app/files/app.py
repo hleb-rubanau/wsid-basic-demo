@@ -7,19 +7,23 @@ from paramiko.client import SSHClient, RejectPolicy
 from paramiko.ed25519key import Ed25519Key
 from io import StringIO
 import tempfile 
+from cachetools import cached, TTLCache
 
 WSID_IDENTITY=os.getenv('WSID_IDENTITY') # https://thisdomain/<username>
 WSID_DOMAIN=os.getenv("WSID_DOMAIN")
 DEMO_UPSTREAM=os.getenv("DEMO_UPSTREAM")
 DEMO_SSH_USER=os.getenv("DEMO_SSH_USER")
+DEMO_DATA_DIR=os.getenv("DEMO_DATA_DIR")
 WSID_ROTATION_MINUTES=os.getenv("WSID_ROTATION_MINUTES")
 WSID_IDENTITY_FQDN="https://"+WSID_DOMAIN+"/.wsid/"+WSID_IDENTITY
 
-# injects SECRET_PASSWORD and SECRET_SSH_KEY_BODY
-with open('./secrets.py','r') as secretsfile:
-    exec(compile(secretsfile.read(), './secrets.py','exec') )
+#SECRET_SSH_KEY=Ed25519Key(file_obj=StringIO(SECRET_SSH_KEY_BODY))
 
-SECRET_SSH_KEY=Ed25519Key(file_obj=StringIO(SECRET_SSH_KEY_BODY))
+CACHE_TTL=10
+@cached(cache=TTLCache(maxsize=1,ttl=CACHE_TTL))
+def get_secret_password():
+    with open(f"{DEMO_DATA_DIR}/passwd", "r") as passwdfile:
+        return passwdfile.read().decode()
 
 app = Flask(__name__)
 
@@ -110,7 +114,7 @@ def test_http():
     logger=logging.getLogger('wsid')
 
     target_endpoint = f"https://{DEMO_UPSTREAM}/test/whoami"
-    auth=(WSID_IDENTITY_FQDN, SECRET_PASSWORD)              
+    auth=(WSID_IDENTITY_FQDN, get_secret_password())
 
     logger.info(f"Testing server-to-server http call, API endpoint is {target_endpoint}, auth is {auth}")
 
@@ -138,7 +142,7 @@ def test_ssh():
             known_hosts_file = load_remote_host_keys(DEMO_UPSTREAM) #, hostkeys)
 
             cmdargs = ['ssh','-o',f'UserKnownHostsFile={known_hosts_file}',
-                        '-i', '/var/run/wsid/private/demo/id_ed25519',
+                        '-i', f"{DEMO_DATA_DIR}/id_ed25519",
                         ssh_endpoint ]
 
             logger.info(f"Initiating connection as {cmdargs}")

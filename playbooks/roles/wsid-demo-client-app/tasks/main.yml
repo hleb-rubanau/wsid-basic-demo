@@ -25,12 +25,12 @@
   template:
     dest: /etc/uwsgi-emperor/vassals/demo_uwsgi.ini
     src: uwsgi.ini
-- name: wsid rotation hook directory
-  file:
-    dest: "{{ wsid_hooks_key_dir }}/{{wsid_demo_identity}}"
-    state: directory
-- name: wsid rotation hook 
-  template:
-    src: hook.sh
-    dest: "{{ wsid_hooks_key_dir }}/{{wsid_demo_identity}}/00_uwsgi_reload.sh"
-    mode: 0744
+- include_tasks: "{{ role_path }}/tasks/rotation_hook.yml"
+  loop:
+    - dir: "{{ wsid_hooks_key_dir }}/{{ wsid_demo_identity }}"
+      file: id_ed25519
+    - dir: "{{ wsid_hooks_passwd_dir }}/{{ wsid_demo_identity }}"
+      file: passwd
+  loop_control:
+    loop_var: hook
+    label: "hook:{{ hook.file }}"
