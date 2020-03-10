@@ -149,12 +149,18 @@ def test_ssh():
                             ssh_endpoint ]
 
             logger.info(f"Checking private key as {keycheck_cmd}")
-            keycheck_result=subprocess.run(keycheck_cmd, capture_output=True)
+            keycheck_result=subprocess.run(keycheck_cmd, 
+                                                stdout=subprocess.PIPE,
+                                                stderr=subprocess.PIPE)
+                                                #capture_output=True)
             logger.info(f"SSH KEYCHECK STDOUT: { keycheck_result.stdout }")
             logger.info(f"SSH KEYCHECK STDERR: { keycheck_result.stderr }")
 
             logger.info(f"Initiating connection as {ssh_cmd}")
-            ssh_result = subprocess.run(ssh_cmd, capture_output=True)
+            ssh_result = subprocess.run(ssh_cmd, 
+                                                stdout=subprocess.PIPE,
+                                                stderr=subprocess.PIPE)
+                                                #capture_output=True)
  
             logger.info(f"SSH CONNECT STDOUT: { ssh_result.stdout }")
             logger.info(f"SSH CONNECT STDERR: { ssh_result.stderr }")
