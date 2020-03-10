@@ -39,7 +39,8 @@ def load_remote_host_keys(host, hostkeys):
             continue
         logger.debug(f"Adding {host} {hostkey}")
         keytype,keybody=hostkey.split(" ")
-        hostkeys.add( host, keytype, Ed25519Key(file_obj=StringIO(keybody) ))
+        if keytype=='ssh-ed25519':
+            hostkeys.add( host, keytype, Ed25519Key(msg=hostkey) )
 
 
 
