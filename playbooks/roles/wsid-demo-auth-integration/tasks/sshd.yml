@@ -4,7 +4,7 @@
 - blockinfile:
     dest: /etc/ssh/sshd_config
     block: "{{ lookup('template', 'sshd_config_addon') }}"
-    validate: /usr/sbing/sshd -t -f %s
+    validate: /usr/sbin/sshd -t -f %s
   notify: reload sshd
 #- lineinfile:
 #    line: "Include sshd_demo_dynamic_auth"
