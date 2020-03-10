@@ -3,7 +3,7 @@
   service:
     name: sshd
     state: restarted
-- import_tasks: docker_service.yml
+- include_tasks: docker_service.yml
   when: ansible_version.full | version('2.8','<') 
-- import_tasks: docker_compose.yml
+- include_tasks: docker_compose.yml
   when: ansible_version.full | version('2.8','>=') 

@@ -12,11 +12,7 @@
 - lineinfile:
     line: "COMPOSE_PROJECT_NAME=demo"
     dest: "{{ wsid_demo_target_app_installation_dir }}/.env"
-- docker_compose:
-    project_src: "{{ wsid_demo_target_app_installation_dir  }}"
-    project_name: "demo"
+- include_tasks: docker_compose.yml
   when: ansible_version.full | version('2.8','>=') 
-- docker_service:
-    project_src: "{{ wsid_demo_target_app_installation_dir  }}"
-    project_name: "demo"
+- include_tasks: docker_service.yml
   when: ansible_version.full | version('2.8','<') 

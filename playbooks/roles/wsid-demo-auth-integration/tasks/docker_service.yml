@@ -1,0 +1,5 @@
+---
+- docker_service:
+    project_src: "{{ wsid_demo_target_app_installation_dir  }}"
+    project_name: "demo"
+    remove_orphans: yes
