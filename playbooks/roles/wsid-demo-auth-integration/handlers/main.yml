@@ -3,13 +3,7 @@
   service:
     name: sshd
     state: restarted
-- name: restart demo app
-  docker_compose:
-    project_src: "{{ wsid_demo_target_app_installation_dir  }}"
-    project_name: "demo"
-    restarted: yes
-- name: restart auth app
-  docker_compose:
-    project_src: "{{ wsid_demo_auth_app.installation_dir  }}"
-    project_name: "{{ wsid_demo_auth_app.name }}"
-    restarted: yes
+- import_tasks: docker_service.yml
+  when: ansible_version.full | version('2.8','<') 
+- import_tasks: docker_compose.yml
+  when: ansible_version.full | version('2.8','>=') 

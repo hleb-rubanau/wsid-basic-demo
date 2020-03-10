@@ -15,3 +15,8 @@
 - docker_compose:
     project_src: "{{ wsid_demo_target_app_installation_dir  }}"
     project_name: "demo"
+  when: ansible_version.full | version('2.8','>=') 
+- docker_service:
+    project_src: "{{ wsid_demo_target_app_installation_dir  }}"
+    project_name: "demo"
+  when: ansible_version.full | version('2.8','<') 
