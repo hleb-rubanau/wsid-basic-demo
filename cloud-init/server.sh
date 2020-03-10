@@ -2,7 +2,7 @@
 
 LETSENCRYPT_ACCOUNT=${ letsencrypt_account }
 FQDN_HOSTNAME=${ fqdn_hostname }
-WSID_DEMO_CLIENT_IDENTITY=${ wsid_demo_client_identity }
+WSID_DEMO_CLIENT_IDENTITY="https://${ wsid_demo_client_domain }/.wsid/demo"
 
 function say() { echo "$*" >&2 ; }
 

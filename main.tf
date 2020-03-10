@@ -41,6 +41,34 @@ resource "digitalocean_record" "client" {
   ttl   = 60
 }
 
+resource "digitalocean_droplet" "client" {
+  image              = local.ubuntu_image
+  name               = local.demo_server_fqdn 
+  region             = var.region
+  ssh_keys           = local.do_ssh_key_ids 
+  user_data          = templatefile ( "${path.module}/cloud-init/server.sh", 
+                                         {
+                                            letsencrypt_account = var.letsencrypt_account
+                                            fqdn_hostname=local.demo_server_fqdn
+                                            wsid_demo_client_domain=local.demo_client_fqdn
+                                         }
+                                     )
+
+  size               = "s-1vcpu-1gb"
+}
+
+resource "digitalocean_record" "server" {
+  domain = var.demo_domain 
+  type   = "A"
+  name   = var.demo_server_subdomain 
+  value = digitalocean_droplet.server.ipv4_address 
+  ttl   = 60
+}
+
 output "client_fqdn" {
   value = local.demo_client_fqdn
+}
+
+output "target_fqdn" {
+  value = local.demo_server_fqdn
 }
