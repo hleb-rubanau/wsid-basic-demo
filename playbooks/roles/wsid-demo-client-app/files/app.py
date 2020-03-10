@@ -156,8 +156,8 @@ def test_ssh():
                                                 stderr=subprocess.PIPE)
                                                 #capture_output=True)
 
-            logger.info(f"SSH KEYCHECK STDOUT: { keycheck_result.stdout }")
             logger.info(f"SSH KEYCHECK STDERR: { keycheck_result.stderr }")
+            logger.info(f"SSH KEYCHECK STDOUT: { keycheck_result.stdout }")
 
             logger.info(f"Initiating connection as {ssh_cmd}")
             ssh_result = subprocess.run(ssh_cmd, 
@@ -165,8 +165,8 @@ def test_ssh():
                                                 stderr=subprocess.PIPE)
                                                 #capture_output=True)
  
-            logger.info(f"SSH CONNECT STDOUT: { ssh_result.stdout }")
             logger.info(f"SSH CONNECT STDERR: { ssh_result.stderr }")
+            logger.info(f"SSH CONNECT STDOUT: { ssh_result.stdout }")
         
             """
             ssh.connect(DEMO_UPSTREAM,
