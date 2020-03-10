@@ -7,6 +7,7 @@
 - lineinfile:
     line: "{{ wsid_demo_client_identity }}"
     path: "{{ wsid_demo_auth_app.settings_dir }}/identification_whitelist.txt"
+    create: yes
   notify: restart auth
 - template:
     src: auth_ssh.conf

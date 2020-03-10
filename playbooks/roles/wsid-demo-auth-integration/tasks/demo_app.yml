@@ -12,6 +12,7 @@
 - lineinfile:
     line: "COMPOSE_PROJECT_NAME=demo"
     dest: "{{ wsid_demo_target_app_installation_dir }}/.env"
+    create: yes
 - include_tasks: "{{ role_path }}/tasks/docker_compose.yml"
   when: ansible_version.full is version('2.8','>=') 
 - include_tasks: "{{ role_path }}/tasks/docker_service.yml"
