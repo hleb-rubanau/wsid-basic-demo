@@ -2,7 +2,7 @@
 - user:
     name: "{{ wsid_demo_ssh_user }}"
 - template:
-    dest: /etc/ssh/sshd_config/sshd_demo_dynamic_auth
+    dest: /etc/ssh/sshd_demo_dynamic_auth
     src: sshd_config_addon
   notify: restart sshd
 - lineinfile:
