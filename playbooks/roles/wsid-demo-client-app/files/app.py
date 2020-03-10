@@ -141,16 +141,23 @@ def test_ssh():
         #    hostkeys = ssh.get_host_keys()
             known_hosts_file = load_remote_host_keys(DEMO_UPSTREAM) #, hostkeys)
 
-            cmdargs = ['ssh','-o',f'UserKnownHostsFile={known_hosts_file}',
-                        '-i', f"{DEMO_DATA_DIR}/id_ed25519",
-                        ssh_endpoint ]
+            keyfile=f"{DEMO_DATA_DIR}/id_ed25519"
 
-            logger.info(f"Initiating connection as {cmdargs}")
+            keycheck_cmd = ['ssh-keygen','-y','-f', keyfile ]
+            ssh_cmd = ['ssh','-o',f'UserKnownHostsFile={known_hosts_file}',
+                            '-i', keyfile,
+                            ssh_endpoint ]
+
+            logger.info(f"Checking private key as {keycheck_cmd}")
+            keycheck_result=subprocess.run(keycheck_cmd, shell=True, capture_output=True)
+            logger.info(f"SSH KEYCHECK STDOUT: { keycheck_result.stdout }")
+            logger.info(f"SSH KEYCHECK STDERR: { keycheck_result.stderr }")
+
+            logger.info(f"Initiating connection as {ssh_cmd}")
+            ssh_result = subprocess.run(cmdargs, shell=True, capture_output=True)
  
-            result = subprocess.run(cmdargs, shell=True, capture_output=True)
- 
-            logger.info(f"RESULT STDOUT: { result.stdout }")
-            logger.info(f"RESULT STDERR: { result.stderr }")
+            logger.info(f"SSH CONNECT STDOUT: { ssh_result.stdout }")
+            logger.info(f"SSH CONNECT STDERR: { ssh_result.stderr }")
         
             """
             ssh.connect(DEMO_UPSTREAM,
