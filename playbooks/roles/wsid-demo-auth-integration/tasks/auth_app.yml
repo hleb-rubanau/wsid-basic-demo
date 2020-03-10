@@ -2,7 +2,7 @@
 - set_fact:
     wsid_demo_auth_app: "{{ wsid_auth_instances[0] }}"
 - file: 
-    dest: "{{ wsid_auth_instance.settings_dir  }}"
+    dest: "{{ wsid_demo_auth_app.settings_dir  }}"
     state: directory
 - lineinfile:
     line: "{{ wsid_demo_client_identity }}"
