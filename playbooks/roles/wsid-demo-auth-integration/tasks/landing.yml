@@ -1,6 +1,6 @@
 ---
 - set_fact: 
-    nginx_static_dir: /opt/nginx/letsencrypted/data/storage/static
+    nginx_static_dir: /opt/nginx-letsencrypted/data/storage/static
 - file:
     dest: "{{ nginx_static_dir }}"
     state: directory
