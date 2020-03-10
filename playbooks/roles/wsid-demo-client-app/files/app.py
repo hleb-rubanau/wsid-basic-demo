@@ -145,8 +145,8 @@ def test_ssh():
             keyfile=f"{DEMO_DATA_DIR}/id_ed25519"
 
             keycheck_cmd = ['ssh-keygen','-y','-f', keyfile ]
-            ssh_cmd = ['ssh', 
-                              f'-i {keyfile}',
+            ssh_cmd = ['ssh', '-T', 
+                              '-i', keyfile,
                               f'-o UserKnownHostsFile={known_hosts_file}',
                                 ssh_endpoint ]
 
