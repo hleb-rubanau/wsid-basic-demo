@@ -1,8 +1,8 @@
 ---
-- name: restart sshd
+- name: reload sshd
   service:
     name: sshd
-    state: restarted
+    state: reloaded
 - name: restart demo app
   include_tasks: "{{ role_path }}/handlers/demo_docker_{{ docker_service_or_compose }}.yml"
 - name: restart auth app
