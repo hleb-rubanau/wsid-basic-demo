@@ -2,7 +2,8 @@
 
 LETSENCRYPT_ACCOUNT=${ letsencrypt_account }
 FQDN_HOSTNAME=${ fqdn_hostname }
-WSID_DEMO_CLIENT_IDENTITY="https://${ wsid_demo_client_domain }/.wsid/demo"
+WSID_DEMO_CLIENT_DOMAIN="${ wsid_demo_client_domain }"
+WSID_DEMO_CLIENT_IDENTITY="https://$WSID_DEMO_CLIENT_DOMAIN/.wsid/demo"
 
 function say() { echo "$*" >&2 ; }
 
@@ -26,6 +27,7 @@ nginx_le_account: $LETSENCRYPT_ACCOUNT
 nginx_le_primary_domain: $FQDN_HOSTNAME
 nginx_le_mode: prod
 wsid_demo_client_identity: "$WSID_DEMO_CLIENT_IDENTITY"
+wsid_demo_client_domain: "$WSID_DEMO_CLIENT_DOMAIN"
 ANSIBLECONFIG
 
 cd /usr/src/wsid-basic-demo/playbooks/

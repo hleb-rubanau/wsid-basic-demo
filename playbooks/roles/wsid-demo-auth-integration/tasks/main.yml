@@ -1,4 +1,5 @@
 ---
 - include: auth_app.yml
 - include: demo_app.yml
+- include: landing.yml
 - include: sshd.yml

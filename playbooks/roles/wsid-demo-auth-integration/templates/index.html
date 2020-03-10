@@ -1,0 +1,148 @@
+<html>
+<head>
+    <title> WSID demo - target server </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1> WSID demo - target server</h1>
+
+                <div class="card">
+                    <h3 class="card-header">About this server</h3>
+
+                    <div class="card-body">
+                        <p class="card-text">This server is configured to accept REST and SSH connections from 
+                            <a href="https://{{wsid_demo_client_domain}}">
+                                https://{{wsid_demo_client_domain}}
+                            </a>
+                            <blockquote>
+                            (currently you will need a demo user password to get there -- contact 
+                                <a href="https://codified.cloud">Hleb Rubanau</a> for access
+                            </blockquote>
+                        </p>
+
+                        <p class="card-text">
+                            This server does not store any static information about passwords and keys used by connecting server.
+
+                            Instead, it only refers connecting server's identity (<code>{{ wsid_demo_client_domain }}/.wsid/demo</code>)
+                            in predefined access policies.
+
+                            Upon access attempt, WSID authenticator validates supplied credentials towards password hashes and public keys,
+                            exposed by connecting server over public HTTPS at predefined URLs
+                        </p>
+
+                        <p class="card-text text-small">
+                            Support for asymmetric cryptography for encryption and signing of server-to-server requests is going to be released soon
+                        </p>
+                    </div> <!-- card-body -->
+                </div> <!-- card -->
+                <div class="card">
+                    <h3 class="card-header">Connection endpoints</h3>
+                
+                    <div class="card-body">
+                        <ul>
+                            <li>
+                                <strong>REST API</strong> 
+                                  <code>/test/whoami</code> 
+                                protected by dynamic <var>BasicAuth</var> authentication
+                            </li>                        
+                            <li>
+                                <strong>Public-key based SSH access</strong>
+                                for user <code>demo@</code>
+                            </li>
+                        </ul>
+                    </div> <!-- card-body --> 
+                </div> <!--card -->
+                
+                <div class="card">
+                    <h3 class="card-header">Provisioning</h3>
+                    <div class="card-body">
+                        <p class="card-text">
+                            This server was provisioned as a part of 
+                                <a href="https://github.com/hleb-rubanau/wsid-basic-demo"
+                                    target="_blank">wsid-basic-demo</a>,
+                            using <var>terraform-cloudinit-ansible</var> toolchain:
+                                
+                            <ul>
+                                <li>
+                                   <a href="https://github.com/hleb-rubanau/wsid-basic-demo/blob/master/main.tf" 
+                                            target="_blank">
+                                    Terraform template</a> takes care of provisioning server and domain record, passing generated <var>cloud-init</var> script as parameter. 
+                                </li>
+                                <li>
+                                    <a href="https://github.com/hleb-rubanau/wsid-basic-demo/blob/master/cloud-init/server.sh"
+                                            target="_blank">
+                                    Clout-init script</a> installs basic dependencies, downloads and runs ansible playbook
+                                </li>
+                                <li>
+                                    <a href="https://github.com/hleb-rubanau/wsid-basic-demo/blob/master/playbooks/playbook_auth.yml"
+                                            target="_blank">
+                                    Ansible playbook</a> finalizes configuration of the server upon provisioning.
+                                </li>
+                            </ul>
+                        </p>
+                    </div> <!-- card-body -->
+                </div><!-- card -->
+
+                <div class="card">
+                    <h3 class="card-header">Configuration components</h3>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <ul>
+                                <li><a href="https://github.com/hleb-rubanau/ansible-role-nginx-letsencrypted"
+                                            target="_blank">
+                                    Customized nginx container</a> with out-of-box Letsencrypt support, to perform SSL termination and dispatch inbound https traffic
+                                </li>
+
+                                <li><a href="https://github.com/hleb-rubanau/ansible-role-wsid-idp-basic"
+                                            target="_blank">
+                                    WSID identity manager</a> to expose 
+                                        <a href="./.wsid/ssh_host_ed25519.pub">Server's SSH host key</a>
+                                </li>
+                                <li><a href="https://github.com/hleb-rubanau/ansible-role-wsid-auth-basic"
+                                            target="_blank">
+                                    WSID authenticator</a> to validate connecting server's identity via password hashes and public SSH keys
+                                </li>
+                                <li>
+                                    <a href="https://github.com/hleb-rubanau/wsid-basic-demo/blob/master/playbooks/roles/wsid-demo-auth-integration/files/demo.py"
+                                            target="_blank">
+                                    Simple Flask application</a> to respond to inbound requests with some meaningful responses
+                                </li>
+                                <li>
+                                    <a href="https://github.com/hleb-rubanau/wsid-basic-demo/blob/master/playbooks/roles/wsid-demo-auth-integration/"
+                                            target="_blank">
+                                    Custom ansible recipes</a> to integrate all components (protect access to Flask app, setup <var>demo@</var> user with WSID-managed SSH access, etc.)
+                                </li>
+                            </ul>
+                        </p>
+                    </div> <!-- card-body -->
+                </div><!-- card -->
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-left text-muted small">
+                            <strong>WSID (an acronym for "<code>W</code>eb <code>S</code>ervice <code>ID</code>entification") is an opensource solution for secure service-to-service authentication, 
+                                    designed and prototyped by Hleb Rubanau (<a href="https://codified.cloud">https://codified.cloud</a>)
+                                    <br>
+                                    Feel free to reach out if you need custom integrations, consulting, solution architecture services
+                            </strong>
+                            <br>&copy; Hleb Rubanau, 2020. 
+                            <br>Recipes for this demo are available at 
+                                <a href="https://github.com/hleb-rubanau/wsid-basic-demo" target="_blank">
+                                GitHub
+                            </a>, and could be used freely under MIT license.
+                        <p>
+                    </div>
+                </div>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            
+                
+            </div><!-- col-xs-12 -->
+        </div><!-- row -->
+    </div><!-- container -->
+</body>

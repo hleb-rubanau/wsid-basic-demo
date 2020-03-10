@@ -1,0 +1,9 @@
+---
+- set_fact: 
+    nginx_static_dir: /opt/nginx/letsencrypted/data/storage/static
+- file:
+    dest: "{{ nginx_static_dir }}"
+    state: directory
+- template:
+    src: index.html
+    dest: "{{ nginx_static_dir }}/index.html"
