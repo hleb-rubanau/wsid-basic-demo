@@ -11,7 +11,7 @@
             <div class="col-xs-12">
                 <h1> WSID demo - target server</h1>
 
-                <div class="card">
+                <div class="card my-3">
                     <h3 class="card-header">About this server</h3>
 
                     <div class="card-body">
@@ -20,8 +20,10 @@
                                 https://{{wsid_demo_client_domain}}
                             </a>
                             <blockquote>
-                            (currently you will need a demo user password to get there -- contact 
-                                <a href="https://codified.cloud">Hleb Rubanau</a> for access
+                                <span class="text-muted">
+                                    (currently you will need a demo user password to get there -- contact 
+                                        <a href="https://codified.cloud">Hleb Rubanau</a> for access)
+                                </span>
                             </blockquote>
                         </p>
 
@@ -40,7 +42,7 @@
                         </p>
                     </div> <!-- card-body -->
                 </div> <!-- card -->
-                <div class="card">
+                <div class="card my-3">
                     <h3 class="card-header">Connection endpoints</h3>
                 
                     <div class="card-body">
@@ -58,7 +60,7 @@
                     </div> <!-- card-body --> 
                 </div> <!--card -->
                 
-                <div class="card">
+                <div class="card my-3">
                     <h3 class="card-header">Provisioning</h3>
                     <div class="card-body">
                         <p class="card-text">
@@ -88,7 +90,7 @@
                     </div> <!-- card-body -->
                 </div><!-- card -->
 
-                <div class="card">
+                <div class="card my-3">
                     <h3 class="card-header">Configuration components</h3>
                     <div class="card-body">
                         <p class="card-text">
@@ -101,7 +103,7 @@
                                 <li><a href="https://github.com/hleb-rubanau/ansible-role-wsid-idp-basic"
                                             target="_blank">
                                     WSID identity manager</a> to expose 
-                                        <a href="./.wsid/ssh_host_ed25519.pub">Server's SSH host key</a>
+                                        <a href="./.wsid/ssh_host_ed25519_key.pub" target="_blank">Server's SSH host key</a>
                                 </li>
                                 <li><a href="https://github.com/hleb-rubanau/ansible-role-wsid-auth-basic"
                                             target="_blank">
@@ -121,7 +123,14 @@
                         </p>
                     </div> <!-- card-body -->
                 </div><!-- card -->
-                <div class="card">
+                
+                <div class="text-center my-3">
+                    <a href="https://{{wsid_demo_client_domain}}" target="_blank" class="btn btn-primary" >
+                        Did you get demo access password? Let's test!
+                    </a>
+                </div>
+
+                <div class="card my-5">
                     <div class="card-body">
                         <p class="text-left text-muted small">
                             <strong>WSID (an acronym for "<code>W</code>eb <code>S</code>ervice <code>ID</code>entification") is an opensource solution for secure service-to-service authentication, 
@@ -137,7 +146,7 @@
                         <p>
                     </div>
                 </div>
-
+i
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
                 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
             
