@@ -41,7 +41,7 @@ resource "digitalocean_record" "client" {
   ttl   = 60
 }
 
-resource "digitalocean_droplet" "client" {
+resource "digitalocean_droplet" "server" {
   image              = local.ubuntu_image
   name               = local.demo_server_fqdn 
   region             = var.region
