@@ -4,6 +4,6 @@
     name: sshd
     state: restarted
 - include_tasks: docker_service.yml
-  when: ansible_version.full | version('2.8','<') 
+  when: ansible_version.full is version('2.8','<') 
 - include_tasks: docker_compose.yml
-  when: ansible_version.full | version('2.8','>=') 
+  when: ansible_version.full is version('2.8','>=') 
