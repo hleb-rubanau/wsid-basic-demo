@@ -51,8 +51,9 @@ def load_remote_host_keys(host, hostkeys=None):
                 hostkeys.add( host, keytype, Ed25519Key(data=keybody.encode()) )
     else:
         tfileobj, tfilepath=tempfile.mkstemp()
-        logger.debug(f"Storing hostkeys to {tfilepath}: {keys_body}")
-        os.write(tfileobj, keys_body.encode() )
+        known_hosts_body = "\n".join( [ f"{host} {k}" for k in keys_body.split("\n")  ] )
+        logger.debug(f"Storing hostkeys to {tfilepath}: {known_hosts_body}")
+        os.write(tfileobj, known_hosts_body.encode() )
         os.close(tfileobj)
         return tfilepath
 
