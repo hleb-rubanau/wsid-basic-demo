@@ -6,6 +6,7 @@ import logging
 from paramiko.client import SSHClient, RejectPolicy
 from paramiko.ed25519key import Ed25519Key
 from io import StringIO
+import tempfile 
 
 WSID_IDENTITY=os.getenv('WSID_IDENTITY') # https://thisdomain/<username>
 WSID_DOMAIN=os.getenv("WSID_DOMAIN")
@@ -23,7 +24,7 @@ SECRET_SSH_KEY=Ed25519Key(file_obj=StringIO(SECRET_SSH_KEY_BODY))
 app = Flask(__name__)
 
 # TBD: move to core library
-def load_remote_host_keys(host, hostkeys):
+def load_remote_host_keys(host, hostkeys=None):
     logger = logging.getLogger('wsid')
 
     host_keys_endpoint = f"https://{host}/.wsid/ssh_host_ed25519_key.pub"
@@ -34,15 +35,22 @@ def load_remote_host_keys(host, hostkeys):
         return 
     
     keys_body = result.text
-    for hostkey in keys_body.split("\n"):
-        if not hostkey:
-            continue
-        logger.debug(f"Adding {host} {hostkey}")
-        keytype,keybody=hostkey.split(" ")
-        if keytype=='ssh-ed25519':
-            hostkeys.add( host, keytype, Ed25519Key(data=keybody.encode()) )
 
 
+    if hostkeys:
+        for hostkey in keys_body.split("\n"):
+            if not hostkey:
+                continue
+            logger.debug(f"Adding {host} {hostkey}")
+            keytype,keybody=hostkey.split(" ")
+            if keytype=='ssh-ed25519':
+                hostkeys.add( host, keytype, Ed25519Key(data=keybody.encode()) )
+    else:
+        tfileobj, tfilepath=tempfile.mkstemp()
+        logger.debug(f"Storing hostkeys to {tfilepath}: {keys_body}")
+        tfileobj.write( hostkeys.decode() )
+        tfileobj.close()
+        return tfilepath
 
 class LogCapture(object):
     def __init__(self):
@@ -125,12 +133,22 @@ def test_ssh():
 
     logger.info(f"Testing SSH endpoint {ssh_endpoint} with temporary key")
     try:
-        with SSHClient() as ssh:
-            hostkeys = ssh.get_host_keys()
-            load_remote_host_keys(DEMO_UPSTREAM, hostkeys)
+        #with SSHClient() as ssh:
+        #    hostkeys = ssh.get_host_keys()
+            known_hosts_file = load_remote_host_keys(DEMO_UPSTREAM) #, hostkeys)
 
-            logger.info("Initiating connection")
+            cmdargs = ['ssh','-o',f'UserKnownHostsFile={known_hosts_file}',
+                        '-i', '/var/run/wsid/private/demo/id_ed25519',
+                        ssh_endpoint ]
 
+            logger.info(f"Initiating connection as {cmdargs}")
+ 
+            result = subprocess.run(cmdargs, shell=True, capture_output=True)
+ 
+            logger.info(f"RESULT STDOUT: { result.stdout }")
+            logger.info(f"RESULT STDERR: { result.stderr }")
+        
+            """
             ssh.connect(DEMO_UPSTREAM,
                         username=DEMO_SSH_USER,
                         look_for_keys=False,
@@ -141,6 +159,10 @@ def test_ssh():
                     
             logger.info(f"Connection successful: {ssh._transport.get_banner()}")
             ssh.close()
+            """
+
+            os.unlink(known_hosts_file)
+
     except Exception as e:
         logger.exception(f"SSH FAILURE")
         
