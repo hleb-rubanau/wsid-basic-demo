@@ -1,6 +1,6 @@
 ---
 version: "3.2"
-service:
+services:
   demo: 
     image: {{ wsid_auth_docker_image }}:{{ wsid_auth_docker_image_tag }}
     restart: unless-stopped
