@@ -15,5 +15,4 @@
     - wsid-idp-basic
     - wsid-auth-basic
     - wsid-demo-auth-integration
-    - nginx-custom-dockerbuild
     - nginx
