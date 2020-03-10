@@ -3,7 +3,7 @@ Match user {{ wsid_demo_ssh_user }}
     AuthorizedKeysCommandUser nobody
     AuthorizedKeysFile /dev/null 
     ForceCommand echo "Hello, demo user, identified as $WSID_IDENTITY ! You authenticated successfully, but shell is intentionally restricted. Bye!"
-
+    PermitUserEnvironment yes
     # it's strictly recommended to disable password auth for accounts supposed for automated login (better for all!)
     # there are many pitfalls with legacy password schemas -- i.e. you can't be sure 
     #   that some old pam_unix won't silently take only first 8 characters off your password 
