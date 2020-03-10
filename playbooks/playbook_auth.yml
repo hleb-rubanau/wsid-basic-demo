@@ -8,7 +8,8 @@
     nginx_le_brave_mode: true
     nginx_le_compose_version: "3.2" 
     nginx_le_logging_options_inline: "tag: nginx"
-    wsid_auth_logging_options_inline: "tag: wsid-auth"
+    wsid_auth_logging_options_inline: yes
+    wsid_auth_demo_auth_port: 8001 
   roles:
     - docker
     - wsid-idp-basic

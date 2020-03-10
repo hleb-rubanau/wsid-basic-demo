@@ -1,0 +1,3 @@
+---
+wsid_demo_target_app_installation_dir: /opt/demo-app-target
+wsid_demo_target_app_port: 3002
