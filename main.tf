@@ -9,7 +9,10 @@ module "do_ssh_keys" {
 
 locals {
   do_ssh_key_ids = values(module.do_ssh_keys.data)[*].id
+  
+  #  curl -X GET --silent "https://api.digitalocean.com/v2/images?per_page=999" -H "Authorization: Bearer $TOKEN" |jq '.'
   ubuntu_image     = "ubuntu-18-04-x64"
+  
   demo_client_fqdn = join(".", [ var.demo_client_subdomain, var.demo_domain ] )
   demo_server_fqdn = join(".", [ var.demo_server_subdomain, var.demo_domain ] )
 }
