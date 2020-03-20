@@ -126,7 +126,7 @@ def test_static():
  
     logger.info(f"GET {target_endpoint}, auth={auth}")
     try:
-        result=requests.get(target_endpoint)   
+        result=requests.get(target_endpoint, auth=auth)   
         logger.info(f"RESPONSE: status_code={ result.status_code }, body=see below")
         for line in result.text.split("\n"):
             logger.info(line)
