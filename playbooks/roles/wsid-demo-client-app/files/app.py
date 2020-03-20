@@ -145,7 +145,14 @@ def test_rest():
     target_endpoint = f"https://{DEMO_UPSTREAM}/test/whoami"
     auth=(WSID_IDENTITY_FQDN, get_secret_password())
 
-    logger.info(f"Testing server-to-server http call, API endpoint is {target_endpoint}, auth is {auth}")
+    logger.info(f"POST {target_endpoint}, anonymously")
+    try:
+        result=requests.post(target_endpoint)    
+        logger.info(f"result.status_code: {result.status_code}")
+    except Exception as e:
+        logger.error(f"FAILURE: {e}")
+    
+    logger.info(f"POST {target_endpoint}, auth={auth}")
 
     try:
         result=requests.post(target_endpoint, auth=auth)    
@@ -192,9 +199,11 @@ def test_ssh():
                                                 stdout=subprocess.PIPE,
                                                 stderr=subprocess.PIPE)
                                                 #capture_output=True)
- 
-            logger.info(f"SSH CONNECT STDERR: { ssh_result.stderr }")
-            logger.info(f"SSH CONNECT STDOUT: { ssh_result.stdout }")
+
+            if not ssh_result.stdout: 
+                logger.info(f"SSH CONNECT STDERR: { ssh_result.stderr }")
+            else:
+                logger.info(f"SSH CONNECT STDOUT: { ssh_result.stdout }")
         
             """
             ssh.connect(DEMO_UPSTREAM,
