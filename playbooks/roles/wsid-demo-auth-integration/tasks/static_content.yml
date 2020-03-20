@@ -1,0 +1,19 @@
+---
+- set_fact: 
+    nginx_static_dir: /opt/nginx-letsencrypted/data/storage/static
+    nginx_protected_dir: /opt/nginx-letsencrypted/data/storage/protected
+- name: Create directories for static content
+  file:
+    dest: "{{ item }}"
+    state: directory
+  loop: 
+    - "{{ nginx_static_dir }}"
+    - "{{ nginx_protected_dir }}/{{ wsid_demo_client_domain }}"
+- name: Public welcome page
+  template:
+    src: index.html
+    dest: "{{ nginx_static_dir }}/index.html"
+- name: Protected static file
+  template:
+    dest: "{{ nginx_protected_dir }}/{{ wsid_demo_client_domain }}/test.txt"
+    src: files/protected_static_file.txt

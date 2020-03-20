@@ -1,9 +1,10 @@
 #!/bin/bash
 
-LETSENCRYPT_ACCOUNT=${ letsencrypt_account }
-FQDN_HOSTNAME=${ fqdn_hostname }
-WSID_DEMO_CLIENT_DOMAIN="${ wsid_demo_client_domain }"
-WSID_DEMO_CLIENT_IDENTITY="$WSID_DEMO_CLIENT_DOMAIN/.wsid/demo"
+export ANSIBLE_VAR_NGINX_LE_ACCOUNT=${ letsencrypt_account }
+export ANSIBLE_VAR_NGINX_LE_PRIMARY_DOMAIN=${ fqdn_hostname }
+export ANSIBLE_VAR_NGINX_LE_MODE=prod
+export ANSIBLE_VAR_WSID_DEMO_CLIENT_DOMAIN="${ wsid_demo_client_domain }"
+export ANSIBLE_VAR_WSID_DEMO_CLIENT_IDENTITY="$ANSIBLE_VAR_WSID_DEMO_CLIENT_DOMAIN/.wsid/demo"
 
 function say() { echo "$*" >&2 ; }
 
@@ -19,16 +20,6 @@ curl -s https://gitlab.com/Rubanau/cloud-tools/raw/master/configure_local_ansibl
 
 say "Cloning recipes"
 git clone 'https://github.com/hleb-rubanau/wsid-basic-demo.git' /usr/src/wsid-basic-demo
-
-say "Storing ansible parameters"
-tee /etc/ansible/host_vars/localhost <<ANSIBLECONFIG
----
-nginx_le_account: $LETSENCRYPT_ACCOUNT
-nginx_le_primary_domain: $FQDN_HOSTNAME
-nginx_le_mode: prod
-wsid_demo_client_identity: "$WSID_DEMO_CLIENT_IDENTITY"
-wsid_demo_client_domain: "$WSID_DEMO_CLIENT_DOMAIN"
-ANSIBLECONFIG
 
 cd /usr/src/wsid-basic-demo/playbooks/
 say "Installing roles"
