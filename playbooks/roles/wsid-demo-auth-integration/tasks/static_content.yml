@@ -16,4 +16,4 @@
 - name: Protected static file
   template:
     dest: "{{ nginx_protected_dir }}/{{ wsid_demo_client_domain }}/test.txt"
-    src: files/protected_static_file.txt
+    src: protected_static_file.txt
