@@ -108,8 +108,36 @@ def index():
                             wsid_rotation_minutes=WSID_ROTATION_MINUTES
                             )
 
-@app.route("/test/http",methods=["POST"])
-def test_http():
+@app.route("/test/static",methods=["POST"])
+def test_static():
+    capturer, log_teardown = initialize_log_capturing()
+    logger=logging.getLogger('wsid')
+    
+    target_endpoint = f"https://{DEMO_UPSTREAM}/protected/test.txt"
+    auth=(WSID_IDENTITY_FQDN, get_secret_password())
+    
+    logger.info(f"GET {target_endpoint}, anonymously")
+
+    try:
+        result=requests.get(target_endpoint)   
+        logger.info(f"RESPONSE: status_code={ result.status_code }, body={ result.text }")
+    except Exception as e:
+        logger.error(f"FAILURE: {e}")
+ 
+    logger.info(f"GET {target_endpoint}, auth={auth}")
+    try:
+        result=requests.get(target_endpoint)   
+        logger.info(f"RESPONSE: status_code={ result.status_code }, body=see below")
+        for line in result.text.split("\n"):
+            logger.info(line)
+    except Exception as e:
+        logger.error(f"FAILURE: {e}")
+    
+    log_teardown()
+    return jsonify(capturer.messages)
+
+@app.route("/test/rest",methods=["POST"])
+def test_rest():
 
     capturer, log_teardown = initialize_log_capturing()
     logger=logging.getLogger('wsid')

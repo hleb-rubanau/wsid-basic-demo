@@ -66,7 +66,17 @@
                                             id="test-rest-tab"
                                             aria-selected="true"
                                             href="#test-rest">
-                                            REST with dynamic password
+                                            REST API calls
+                                        </a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" 
+                                            data-toggle="tab" 
+                                            role="tab"
+                                            aria-controls="test-static"
+                                            id="test-static-tab"
+                                            aria-selected="true"
+                                            href="#test-static">
+                                            Protected HTTP content
                                         </a></li>
                                     <li class="nav-item">
                                         <a class="nav-link" 
@@ -76,7 +86,7 @@
                                             aria-controls="test-ssh"
                                             aria-selected="false"
                                             href="#test-ssh">
-                                            SSH with self-managed keys
+                                            SSH access
                                         </a></li>
                                     <li class="nav-item">
                                         <a class="nav-link" 
@@ -106,6 +116,22 @@
                                     <button type="button" class="btn btn-primary" id="test-rest">Test REST API call</button>
                                     <div id="test-rest-result" class="my-3"></div>
                                 </div>
+                                <div id="test-static" class="tab-pane fade show active" role="tabpanel" aria-labelledby="test-rest-tab">
+                                    <p class="card-text">Upon test, server tries to fetch
+                                                            <a href="https://{{upstream}}/protected/test.txt" target="_blank">static file from protected area</a>: 
+                                                            first unsuccessfully as anonymous, then 
+                                                            supplying <var>BasicAuth</var> header, providing <var>{{this_domain}}/.wsid/{{this_identity}}</var> as username, and currently active password as a password</p>
+                                    <p>Receiving server will validate supplied username and password towards 
+                                        <a href="https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash" target="_blank">
+                                            password hashes exposed via SSL
+                                        </a> and then reroute the request with respect to client's identity, serving the content for this specific server.
+                                    </p>
+                                    <button type="button" class="btn btn-primary" id="test-static">Test static files fetching</button>
+                                    <div id="test-static-result" class="my-3"></div>
+                                </div>
+                                <div id="test-ssh" class="tab-pane fade" role="tabpanel" aria-labelledby="test-ssh-tab">
+                                    <p>Upon test, server will attempt an SSH connection to the <var>{{demo_ssh_user}}@{{upstream}}</var></p>
+                                    <p>Before connection, trusted remote host keys would be fetched from 
                                 <div id="test-ssh" class="tab-pane fade" role="tabpanel" aria-labelledby="test-ssh-tab">
                                     <p>Upon test, server will attempt an SSH connection to the <var>{{demo_ssh_user}}@{{upstream}}</var></p>
                                     <p>Before connection, trusted remote host keys would be fetched from 
@@ -219,12 +245,24 @@
                 $("#test-rest").click( function() {
                                            $.ajax({
                                                 type: "POST",
-                                                url: "/test/http"}
+                                                url: "/test/rest"}
                                                ).done( function (data, s,o){
                                                     $("#test-rest-result").html("<h4>REST test result</h4><div>"+code_to_block(data)+"</div>");
                                                     }
                                                 ).fail( function(o,s,e) {
                                                     $("#test-rest-result").html("<h4>AJAX Failure: "+s+"</h4><div><code>"+e+"</code></div>");
+                                                    }
+                                                );
+                                        } ); 
+                $("#test-static").click( function() {
+                                           $.ajax({
+                                                type: "POST",
+                                                url: "/test/static"}
+                                               ).done( function (data, s,o){
+                                                    $("#test-static-result").html("<h4>Static access test result</h4><div>"+code_to_block(data)+"</div>");
+                                                    }
+                                                ).fail( function(o,s,e) {
+                                                    $("#test-static-result").html("<h4>AJAX Failure: "+s+"</h4><div><code>"+e+"</code></div>");
                                                     }
                                                 );
                                         } ); 
