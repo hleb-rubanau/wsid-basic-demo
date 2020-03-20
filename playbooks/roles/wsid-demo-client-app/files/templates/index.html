@@ -104,17 +104,16 @@
                             <div class="card-body tab-content">
                                 <div id="test-rest" class="tab-pane fade show active" role="tabpanel" aria-labelledby="test-rest-tab">
                                     <p class="card-text">Upon test, server will send a POST request to the <var>https://{{upstream}}/test/http</var> API, supplying <var>BasicAuth</var> header, providiing <var>{{this_domain}}/.wsid/{{this_identity}}</var> as username, and currently active password as a password</p>
-                                    <p>Receiving server will fetch valid password hashes 
-                                        via trusted SSL channel from the URL 
+                                    <p>Receiving server will validate supplied username and password towards 
                                         <a href="https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash" target="_blank">
-                                            https://{{this_domain}}/.wsid/{{this_identity}}/passwdhash
-                                        </a> and would validate the password supplied
+                                            password hashes exposed via SSL
+                                        </a> 
                                     </p>
                                     <p> After successful <strong>authentication</strong>, 
                                         target server would make an <strong>authorization</strong> decision in accordance to its internal policies, which may allow or prohibit particular actions for user <var>{{this_domain}}/.wsid/{{this_identity}}</var> 
                                     </p>
                                     <button type="button" class="btn btn-primary" id="test-rest">Test REST API call</button>
-                                    <div id="test-rest-result" class="my-3"></div>
+                                    <div id="`test-rest-result" class="my-3"></div>
                                 </div>
                                 <div id="test-static" class="tab-pane fade show active" role="tabpanel" aria-labelledby="test-rest-tab">
                                     <p class="card-text">Upon test, server tries to fetch
